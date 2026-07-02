@@ -9,8 +9,20 @@ type Props = {
 
 export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [search, setSearch] = useState("");
   const [editingPerson, setEditingPerson] = useState<Personnel | null>(null);
+  const [selectedPerson, setSelectedPerson] = useState<Personnel | null>(null);
+  const [search, setSearch] = useState("");
+
+  const filteredPersonnel = personnel.filter((p) => {
+    const keyword = search.toLowerCase();
+
+    return (
+      p.name.toLowerCase().includes(keyword) ||
+      p.position.toLowerCase().includes(keyword) ||
+      (p.phone ?? "").toLowerCase().includes(keyword) ||
+      (p.email ?? "").toLowerCase().includes(keyword)
+    );
+  });
 
   function openCreateModal() {
     setEditingPerson(null);
@@ -52,19 +64,12 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
 
   async function deletePersonnel(id: number) {
     if (!window.confirm("Bu personeli silmek istiyor musun?")) return;
+
     await window.bordroxAPI.personnel.delete(id);
+    setSelectedPerson(null);
     await reloadPersonnel();
   }
-const filteredPersonnel = personnel.filter((p) => {
-  const keyword = search.toLowerCase();
 
-  return (
-    p.name.toLowerCase().includes(keyword) ||
-    p.position.toLowerCase().includes(keyword) ||
-    (p.phone ?? "").toLowerCase().includes(keyword) ||
-    (p.email ?? "").toLowerCase().includes(keyword)
-  );
-});
   return (
     <>
       <header>
@@ -78,16 +83,18 @@ const filteredPersonnel = personnel.filter((p) => {
           + Yeni Personel
         </button>
       </header>
-<div className="toolbar">
-  <input
-    value={search}
-    onChange={(event) => setSearch(event.target.value)}
-    placeholder="Personel ara..."
-  />
-</div>
+
+      <div className="toolbar">
+        <input
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+          placeholder="Personel ara..."
+        />
+      </div>
+
       <section className="panel">
         {filteredPersonnel.length === 0 ? (
-          <p>Henüz personel eklenmemiş.</p>
+          <p>Personel bulunamadı.</p>
         ) : (
           <table>
             <thead>
@@ -97,7 +104,6 @@ const filteredPersonnel = personnel.filter((p) => {
                 <th>Telefon</th>
                 <th>E-posta</th>
                 <th>Maaş</th>
-                <th>İşlem</th>
                 <th>Durum</th>
                 <th>İşlem</th>
               </tr>
@@ -112,14 +118,28 @@ const filteredPersonnel = personnel.filter((p) => {
                   <td>{p.email}</td>
                   <td>₺{p.salary.toLocaleString("tr-TR")}</td>
                   <td>
-                  <span className="statusBadge">Aktif</span>
+                    <span className="statusBadge">Aktif</span>
                   </td>
                   <td>
                     <div className="rowActions">
-                      <button className="editButton" onClick={() => openEditModal(p)}>
+                      <button
+                        className="viewButton"
+                        onClick={() => setSelectedPerson(p)}
+                      >
+                        Görüntüle
+                      </button>
+
+                      <button
+                        className="editButton"
+                        onClick={() => openEditModal(p)}
+                      >
                         Düzenle
                       </button>
-                      <button className="dangerButton" onClick={() => deletePersonnel(p.id)}>
+
+                      <button
+                        className="dangerButton"
+                        onClick={() => deletePersonnel(p.id)}
+                      >
                         Sil
                       </button>
                     </div>
@@ -130,6 +150,56 @@ const filteredPersonnel = personnel.filter((p) => {
           </table>
         )}
       </section>
+
+      {selectedPerson && (
+        <div className="detailPanel">
+          <div className="detailHeader">
+            <div>
+              <h3>{selectedPerson.name}</h3>
+              <p>{selectedPerson.position}</p>
+            </div>
+
+            <button onClick={() => setSelectedPerson(null)}>Kapat</button>
+          </div>
+
+          <div className="detailGrid">
+            <div>
+              <span>Telefon</span>
+              <strong>{selectedPerson.phone || "-"}</strong>
+            </div>
+
+            <div>
+              <span>E-posta</span>
+              <strong>{selectedPerson.email || "-"}</strong>
+            </div>
+
+            <div>
+              <span>TC Kimlik</span>
+              <strong>{selectedPerson.nationalId || "-"}</strong>
+            </div>
+
+            <div>
+              <span>IBAN</span>
+              <strong>{selectedPerson.iban || "-"}</strong>
+            </div>
+
+            <div>
+              <span>İşe Giriş</span>
+              <strong>{selectedPerson.hireDate || "-"}</strong>
+            </div>
+
+            <div>
+              <span>Maaş</span>
+              <strong>₺{selectedPerson.salary.toLocaleString("tr-TR")}</strong>
+            </div>
+          </div>
+
+          <div className="detailNotes">
+            <span>Notlar</span>
+            <p>{selectedPerson.notes || "Not bulunmuyor."}</p>
+          </div>
+        </div>
+      )}
 
       {modalOpen && (
         <div className="modalBackdrop">

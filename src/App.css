@@ -235,4 +235,85 @@ tbody tr:hover {
 
 td:first-child {
   font-weight: 800;
+}.viewButton {
+  background: #343843;
+  color: white;
+  border: 0;
+  border-radius: 10px;
+  padding: 9px 13px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.viewButton:hover {
+  background: #3f4654;
+}
+
+.detailPanel {
+  margin-top: 24px;
+  background: #252830;
+  border: 1px solid #343843;
+  border-radius: 18px;
+  padding: 24px;
+}
+
+.detailHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.detailHeader h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.detailHeader p {
+  margin: 6px 0 0;
+  color: #9ca3af;
+}
+
+.detailHeader button {
+  background: #343843;
+  color: white;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.detailGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.detailGrid div,
+.detailNotes {
+  background: #1b1d22;
+  border: 1px solid #343843;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.detailGrid span,
+.detailNotes span {
+  display: block;
+  color: #9ca3af;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.detailGrid strong {
+  font-size: 15px;
+}
+
+.detailNotes {
+  margin-top: 14px;
+}
+
+.detailNotes p {
+  margin: 0;
+  color: #f3f4f6;
 }
