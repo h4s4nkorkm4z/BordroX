@@ -4,33 +4,37 @@ import type { Personnel } from "../types/personnel";
 type Props = {
   personnel: Personnel[];
   setPersonnel: React.Dispatch<React.SetStateAction<Personnel[]>>;
+  reloadPersonnel: () => Promise<void>;
 };
 
-export default function PersonnelPage({ personnel, setPersonnel }: Props) {
+export default function PersonnelPage({
+  personnel,
+  reloadPersonnel,
+}: Props) {
   const [modalOpen, setModalOpen] = useState(false);
 
-  function addPersonnel(event: React.FormEvent<HTMLFormElement>) {
+  async function addPersonnel(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const form = new FormData(event.currentTarget);
 
-    const newPerson: Personnel = {
-      id: Date.now(),
+    await window.bordroxAPI.personnel.create({
       name: String(form.get("name")),
       position: String(form.get("position")),
       phone: String(form.get("phone")),
       salary: Number(form.get("salary")),
-    };
+    });
 
-    setPersonnel((prev) => [...prev, newPerson]);
     setModalOpen(false);
+    await reloadPersonnel();
   }
 
-  function deletePersonnel(id: number) {
+  async function deletePersonnel(id: number) {
     const confirmDelete = window.confirm("Bu personeli silmek istiyor musun?");
     if (!confirmDelete) return;
 
-    setPersonnel((prev) => prev.filter((person) => person.id !== id));
+    await window.bordroxAPI.personnel.delete(id);
+    await reloadPersonnel();
   }
 
   return (
@@ -69,7 +73,10 @@ export default function PersonnelPage({ personnel, setPersonnel }: Props) {
                   <td>{p.phone}</td>
                   <td>₺{p.salary.toLocaleString("tr-TR")}</td>
                   <td>
-                    <button className="dangerButton" onClick={() => deletePersonnel(p.id)}>
+                    <button
+                      className="dangerButton"
+                      onClick={() => deletePersonnel(p.id)}
+                    >
                       Sil
                     </button>
                   </td>
