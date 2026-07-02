@@ -5,24 +5,44 @@ type Props = {
   setPage: (page: Page) => void;
 };
 
+const menu = [
+  { key: "dashboard", label: "Dashboard", icon: "🏠" },
+  { key: "personnel", label: "Personeller", icon: "👤" },
+  { key: "payroll", label: "Bordro", icon: "💰" },
+  { key: "reports", label: "Raporlar", icon: "📊" },
+] as const;
+
 export default function Sidebar({ page, setPage }: Props) {
   return (
     <aside className="sidebar">
       <div className="brand">
-        <div className="brandIcon">B</div>
+        <div className="brandIcon">BX</div>
         <div>
           <h1>BordroX</h1>
-          <p>Personel Takip</p>
+          <p>Professional HR</p>
         </div>
       </div>
 
-      <nav>
-        <button className={page === "dashboard" ? "active" : ""} onClick={() => setPage("dashboard")}>Özet</button>
-        <button className={page === "personnel" ? "active" : ""} onClick={() => setPage("personnel")}>Personel</button>
-        <button className={page === "payroll" ? "active" : ""} onClick={() => setPage("payroll")}>Bordro</button>
-        <button>Ödemeler</button>
-        <button className={page === "reports" ? "active" : ""} onClick={() => setPage("reports")}>Raporlar</button>
+      <nav className="menuList">
+        {menu.map((item) => (
+          <button
+            key={item.key}
+            className={page === item.key ? "active menuButton" : "menuButton"}
+            onClick={() => setPage(item.key)}
+          >
+            <span>{item.icon}</span>
+            {item.label}
+          </button>
+        ))}
       </nav>
+
+      <div className="sidebarProfile">
+        <div className="avatar">H</div>
+        <div>
+          <strong>Hasan</strong>
+          <span>Yönetici</span>
+        </div>
+      </div>
     </aside>
   );
 }
