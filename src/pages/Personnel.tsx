@@ -30,6 +30,11 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
       name: String(form.get("name")),
       position: String(form.get("position")),
       phone: String(form.get("phone")),
+      email: String(form.get("email")),
+      nationalId: String(form.get("nationalId")),
+      iban: String(form.get("iban")),
+      hireDate: String(form.get("hireDate")),
+      notes: String(form.get("notes")),
       salary: Number(form.get("salary")),
     };
 
@@ -45,9 +50,7 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
   }
 
   async function deletePersonnel(id: number) {
-    const confirmDelete = window.confirm("Bu personeli silmek istiyor musun?");
-    if (!confirmDelete) return;
-
+    if (!window.confirm("Bu personeli silmek istiyor musun?")) return;
     await window.bordroxAPI.personnel.delete(id);
     await reloadPersonnel();
   }
@@ -76,6 +79,7 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
                 <th>Ad Soyad</th>
                 <th>Pozisyon</th>
                 <th>Telefon</th>
+                <th>E-posta</th>
                 <th>Maaş</th>
                 <th>İşlem</th>
               </tr>
@@ -87,20 +91,14 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
                   <td>{p.name}</td>
                   <td>{p.position}</td>
                   <td>{p.phone}</td>
+                  <td>{p.email}</td>
                   <td>₺{p.salary.toLocaleString("tr-TR")}</td>
                   <td>
                     <div className="rowActions">
-                      <button
-                        className="editButton"
-                        onClick={() => openEditModal(p)}
-                      >
+                      <button className="editButton" onClick={() => openEditModal(p)}>
                         Düzenle
                       </button>
-
-                      <button
-                        className="dangerButton"
-                        onClick={() => deletePersonnel(p.id)}
-                      >
+                      <button className="dangerButton" onClick={() => deletePersonnel(p.id)}>
                         Sil
                       </button>
                     </div>
@@ -117,45 +115,20 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
           <form className="modal" onSubmit={savePersonnel}>
             <h3>{editingPerson ? "Personel Düzenle" : "Yeni Personel"}</h3>
 
-            <input
-              name="name"
-              placeholder="Ad Soyad"
-              defaultValue={editingPerson?.name ?? ""}
-              required
-            />
-
-            <input
-              name="position"
-              placeholder="Pozisyon"
-              defaultValue={editingPerson?.position ?? ""}
-              required
-            />
-
-            <input
-              name="phone"
-              placeholder="Telefon"
-              defaultValue={editingPerson?.phone ?? ""}
-            />
-
-            <input
-              name="salary"
-              type="number"
-              placeholder="Aylık Maaş"
-              defaultValue={editingPerson?.salary ?? ""}
-              required
-            />
+            <input name="name" placeholder="Ad Soyad" defaultValue={editingPerson?.name ?? ""} required />
+            <input name="position" placeholder="Pozisyon" defaultValue={editingPerson?.position ?? ""} required />
+            <input name="phone" placeholder="Telefon" defaultValue={editingPerson?.phone ?? ""} />
+            <input name="email" placeholder="E-posta" defaultValue={editingPerson?.email ?? ""} />
+            <input name="nationalId" placeholder="TC Kimlik No" defaultValue={editingPerson?.nationalId ?? ""} />
+            <input name="iban" placeholder="IBAN" defaultValue={editingPerson?.iban ?? ""} />
+            <input name="hireDate" type="date" defaultValue={editingPerson?.hireDate ?? ""} />
+            <input name="salary" type="number" placeholder="Aylık Maaş" defaultValue={editingPerson?.salary ?? ""} required />
+            <textarea name="notes" placeholder="Notlar" defaultValue={editingPerson?.notes ?? ""} />
 
             <div className="modalActions">
-              <button
-                type="button"
-                onClick={() => {
-                  setModalOpen(false);
-                  setEditingPerson(null);
-                }}
-              >
+              <button type="button" onClick={() => setModalOpen(false)}>
                 İptal
               </button>
-
               <button type="submit">
                 {editingPerson ? "Güncelle" : "Kaydet"}
               </button>

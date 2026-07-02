@@ -175,4 +175,12 @@ header p {
 
 .editButton:hover {
   background: #1d4ed8;
+}.modal textarea {
+  background: #020617;
+  border: 1px solid #334155;
+  color: white;
+  padding: 14px;
+  border-radius: 12px;
+  min-height: 90px;
+  resize: vertical;
 }

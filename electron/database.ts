@@ -30,6 +30,11 @@ export const database = {
       name: string;
       position: string;
       phone?: string;
+      email?: string;
+      nationalId?: string;
+      iban?: string;
+      hireDate?: string;
+      notes?: string;
       salary: number;
     }) {
       return prisma.personnel.create({

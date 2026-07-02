@@ -11,6 +11,11 @@ declare global {
           name: string;
           position: string;
           phone?: string;
+          email?: string;
+          nationalId?: string;
+          iban?: string;
+          hireDate?: string;
+          notes?: string;
           salary: number;
         }) => Promise<Personnel>;
         update: (
