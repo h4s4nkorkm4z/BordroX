@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
@@ -9,7 +9,15 @@ import type { Page, Personnel } from "./types/personnel";
 
 function App() {
   const [page, setPage] = useState<Page>("dashboard");
-  const [personnel, setPersonnel] = useState<Personnel[]>([]);
+
+  const [personnel, setPersonnel] = useState<Personnel[]>(() => {
+    const saved = localStorage.getItem("bordrox_personnel");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("bordrox_personnel", JSON.stringify(personnel));
+  }, [personnel]);
 
   return (
     <div className="app">
@@ -17,7 +25,9 @@ function App() {
 
       <main className="content">
         {page === "dashboard" && <Dashboard personnel={personnel} />}
-        {page === "personnel" && <PersonnelPage personnel={personnel} setPersonnel={setPersonnel} />}
+        {page === "personnel" && (
+          <PersonnelPage personnel={personnel} setPersonnel={setPersonnel} />
+        )}
         {page === "payroll" && <PayrollPage />}
         {page === "reports" && <ReportsPage />}
       </main>
