@@ -98,6 +98,8 @@ const filteredPersonnel = personnel.filter((p) => {
                 <th>E-posta</th>
                 <th>Maaş</th>
                 <th>İşlem</th>
+                <th>Durum</th>
+                <th>İşlem</th>
               </tr>
             </thead>
 
@@ -109,6 +111,9 @@ const filteredPersonnel = personnel.filter((p) => {
                   <td>{p.phone}</td>
                   <td>{p.email}</td>
                   <td>₺{p.salary.toLocaleString("tr-TR")}</td>
+                  <td>
+                  <span className="statusBadge">Aktif</span>
+                  </td>
                   <td>
                     <div className="rowActions">
                       <button className="editButton" onClick={() => openEditModal(p)}>
