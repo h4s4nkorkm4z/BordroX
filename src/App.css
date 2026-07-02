@@ -1,0 +1,149 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0f172a;
+  color: #f8fafc;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+}
+
+.sidebar {
+  width: 250px;
+  background: #111827;
+  border-right: 1px solid #293548;
+  padding: 24px;
+}
+
+.brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 42px;
+}
+
+.brandIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #2563eb;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.brand p {
+  margin: 3px 0 0;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+nav {
+  display: grid;
+  gap: 10px;
+}
+
+nav button {
+  background: transparent;
+  color: #cbd5e1;
+  border: 0;
+  text-align: left;
+  padding: 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+nav button:hover,
+nav button.active {
+  background: #1e293b;
+  color: white;
+}
+
+.content {
+  flex: 1;
+  padding: 36px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header span {
+  color: #64748b;
+  letter-spacing: 2px;
+  font-size: 12px;
+}
+
+header h2 {
+  margin: 8px 0;
+  font-size: 44px;
+}
+
+header p {
+  color: #94a3b8;
+  margin: 0;
+}
+
+.newButton {
+  background: #2563eb;
+  color: white;
+  border: 0;
+  border-radius: 12px;
+  padding: 13px 18px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.cards {
+  margin-top: 34px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.card,
+.panel {
+  background: #111827;
+  border: 1px solid #334155;
+  border-radius: 18px;
+}
+
+.card {
+  padding: 24px;
+}
+
+.card p {
+  margin: 0 0 16px;
+  color: #94a3b8;
+}
+
+.card strong {
+  font-size: 30px;
+}
+
+.panel {
+  margin-top: 28px;
+  padding: 26px;
+}
+
+.panel h3 {
+  margin-top: 0;
+}
+
+.panel p {
+  color: #94a3b8;
+}
