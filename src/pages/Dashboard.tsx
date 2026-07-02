@@ -11,22 +11,22 @@ export default function Dashboard({ personnel }: Props) {
     <>
       <header>
         <div>
-          <span>01 — Özet</span>
+          <span>01 â€” Ã–zet</span>
           <h2>Dashboard</h2>
-          <p>Personel, maaþ ve ödeme durumlarýný takip edin.</p>
+          <p>Personel, maaÅŸ ve Ã¶deme durumlarÄ±nÄ± takip edin.</p>
         </div>
       </header>
 
       <section className="cards">
         <div className="card"><p>Toplam Personel</p><strong>{personnel.length}</strong></div>
-        <div className="card"><p>Bu Ay Maaþ</p><strong>?{totalSalary.toLocaleString("tr-TR")}</strong></div>
-        <div className="card"><p>Ödenen</p><strong>?0,00</strong></div>
-        <div className="card"><p>Kalan</p><strong>?{totalSalary.toLocaleString("tr-TR")}</strong></div>
+        <div className="card"><p>Bu Ay MaaÅŸ</p><strong>â‚º{totalSalary.toLocaleString("tr-TR")}</strong></div>
+        <div className="card"><p>Ã–denen</p><strong>â‚º0,00</strong></div>
+        <div className="card"><p>Kalan</p><strong>â‚º{totalSalary.toLocaleString("tr-TR")}</strong></div>
       </section>
 
       <section className="panel">
         <h3>Son Hareketler</h3>
-        <p>Henüz kayýt bulunmuyor.</p>
+        <p>HenÃ¼z kayÄ±t bulunmuyor.</p>
       </section>
     </>
   );

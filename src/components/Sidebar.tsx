@@ -17,10 +17,10 @@ export default function Sidebar({ page, setPage }: Props) {
       </div>
 
       <nav>
-        <button className={page === "dashboard" ? "active" : ""} onClick={() => setPage("dashboard")}>Özet</button>
+        <button className={page === "dashboard" ? "active" : ""} onClick={() => setPage("dashboard")}>Ã–zet</button>
         <button className={page === "personnel" ? "active" : ""} onClick={() => setPage("personnel")}>Personel</button>
         <button className={page === "payroll" ? "active" : ""} onClick={() => setPage("payroll")}>Bordro</button>
-        <button>Ödemeler</button>
+        <button>Ã–demeler</button>
         <button className={page === "reports" ? "active" : ""} onClick={() => setPage("reports")}>Raporlar</button>
       </nav>
     </aside>
