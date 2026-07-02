@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+
 import type { Personnel } from "./types/personnel";
 
 declare global {
@@ -12,8 +13,19 @@ declare global {
           phone?: string;
           salary: number;
         }) => Promise<Personnel>;
+        update: (
+          id: number,
+          data: {
+            name: string;
+            position: string;
+            phone?: string;
+            salary: number;
+          }
+        ) => Promise<Personnel>;
         delete: (id: number) => Promise<Personnel>;
       };
     };
   }
 }
+
+export {};

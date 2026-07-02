@@ -6,7 +6,20 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 export const database = {
-  personnel: {
+  personnel: {update(
+  id: number,
+  data: {
+    name: string;
+    position: string;
+    phone?: string;
+    salary: number;
+  }
+) {
+  return prisma.personnel.update({
+    where: { id },
+    data,
+  });
+},
     list() {
       return prisma.personnel.findMany({
         orderBy: { createdAt: "desc" },

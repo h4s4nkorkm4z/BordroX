@@ -7,6 +7,12 @@ const { PrismaClient } = require$1("@prisma/client");
 const prisma = new PrismaClient();
 const database = {
   personnel: {
+    update(id, data) {
+      return prisma.personnel.update({
+        where: { id },
+        data
+      });
+    },
     list() {
       return prisma.personnel.findMany({
         orderBy: { createdAt: "desc" }
@@ -39,6 +45,9 @@ ipcMain.handle("personnel:create", async (_event, data) => {
 });
 ipcMain.handle("personnel:delete", async (_event, id) => {
   return database.personnel.delete(id);
+});
+ipcMain.handle("personnel:update", async (_event, id, data) => {
+  return database.personnel.update(id, data);
 });
 function createWindow() {
   win = new BrowserWindow({
