@@ -9,6 +9,7 @@ type Props = {
 
 export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [search, setSearch] = useState("");
   const [editingPerson, setEditingPerson] = useState<Personnel | null>(null);
 
   function openCreateModal() {
@@ -54,7 +55,16 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
     await window.bordroxAPI.personnel.delete(id);
     await reloadPersonnel();
   }
+const filteredPersonnel = personnel.filter((p) => {
+  const keyword = search.toLowerCase();
 
+  return (
+    p.name.toLowerCase().includes(keyword) ||
+    p.position.toLowerCase().includes(keyword) ||
+    (p.phone ?? "").toLowerCase().includes(keyword) ||
+    (p.email ?? "").toLowerCase().includes(keyword)
+  );
+});
   return (
     <>
       <header>
@@ -68,9 +78,15 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
           + Yeni Personel
         </button>
       </header>
-
+<div className="toolbar">
+  <input
+    value={search}
+    onChange={(event) => setSearch(event.target.value)}
+    placeholder="Personel ara..."
+  />
+</div>
       <section className="panel">
-        {personnel.length === 0 ? (
+        {filteredPersonnel.length === 0 ? (
           <p>Henüz personel eklenmemiş.</p>
         ) : (
           <table>
@@ -86,7 +102,7 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
             </thead>
 
             <tbody>
-              {personnel.map((p) => (
+              {filteredPersonnel.map((p) => (
                 <tr key={p.id}>
                   <td>{p.name}</td>
                   <td>{p.position}</td>
