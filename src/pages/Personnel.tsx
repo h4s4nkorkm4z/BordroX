@@ -26,21 +26,30 @@ export default function PersonnelPage({ personnel, setPersonnel }: Props) {
     setModalOpen(false);
   }
 
+  function deletePersonnel(id: number) {
+    const confirmDelete = window.confirm("Bu personeli silmek istiyor musun?");
+    if (!confirmDelete) return;
+
+    setPersonnel((prev) => prev.filter((person) => person.id !== id));
+  }
+
   return (
     <>
       <header>
         <div>
-          <span>02 — Personeller</span>
+          <span>02 â€” Personeller</span>
           <h2>Personel</h2>
-          <p>Tüm çalýþanlarý buradan yönetin.</p>
+          <p>TÃ¼m Ã§alÄ±ÅŸanlarÄ± buradan yÃ¶netin.</p>
         </div>
 
-        <button className="newButton" onClick={() => setModalOpen(true)}>+ Yeni Personel</button>
+        <button className="newButton" onClick={() => setModalOpen(true)}>
+          + Yeni Personel
+        </button>
       </header>
 
       <section className="panel">
         {personnel.length === 0 ? (
-          <p>Henüz personel eklenmemiþ.</p>
+          <p>HenÃ¼z personel eklenmemiÅŸ.</p>
         ) : (
           <table>
             <thead>
@@ -48,7 +57,8 @@ export default function PersonnelPage({ personnel, setPersonnel }: Props) {
                 <th>Ad Soyad</th>
                 <th>Pozisyon</th>
                 <th>Telefon</th>
-                <th>Maaþ</th>
+                <th>MaaÅŸ</th>
+                <th>Ä°ÅŸlem</th>
               </tr>
             </thead>
             <tbody>
@@ -57,7 +67,12 @@ export default function PersonnelPage({ personnel, setPersonnel }: Props) {
                   <td>{p.name}</td>
                   <td>{p.position}</td>
                   <td>{p.phone}</td>
-                  <td>?{p.salary.toLocaleString("tr-TR")}</td>
+                  <td>â‚º{p.salary.toLocaleString("tr-TR")}</td>
+                  <td>
+                    <button className="dangerButton" onClick={() => deletePersonnel(p.id)}>
+                      Sil
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -69,13 +84,16 @@ export default function PersonnelPage({ personnel, setPersonnel }: Props) {
         <div className="modalBackdrop">
           <form className="modal" onSubmit={addPersonnel}>
             <h3>Yeni Personel</h3>
+
             <input name="name" placeholder="Ad Soyad" required />
             <input name="position" placeholder="Pozisyon" required />
             <input name="phone" placeholder="Telefon" />
-            <input name="salary" type="number" placeholder="Aylýk Maaþ" required />
+            <input name="salary" type="number" placeholder="AylÄ±k MaaÅŸ" required />
 
             <div className="modalActions">
-              <button type="button" onClick={() => setModalOpen(false)}>Ýptal</button>
+              <button type="button" onClick={() => setModalOpen(false)}>
+                Ä°ptal
+              </button>
               <button type="submit">Kaydet</button>
             </div>
           </form>
