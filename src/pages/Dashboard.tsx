@@ -1,3 +1,4 @@
+import { FileWarning, Users, Wallet, UserCheck } from "lucide-react";
 import type { Personnel } from "../types/personnel";
 
 type Props = {
@@ -7,6 +8,13 @@ type Props = {
 export default function Dashboard({ personnel }: Props) {
   const totalSalary = personnel.reduce((sum, p) => sum + p.salary, 0);
   const latestPersonnel = personnel.slice(0, 5);
+
+  const cards = [
+    { title: "Toplam Personel", value: personnel.length, icon: Users },
+    { title: "Toplam Maaş", value: `₺${totalSalary.toLocaleString("tr-TR")}`, icon: Wallet },
+    { title: "Aktif Personel", value: personnel.length, icon: UserCheck },
+    { title: "Eksik Evrak", value: 0, icon: FileWarning },
+  ];
 
   return (
     <>
@@ -19,29 +27,31 @@ export default function Dashboard({ personnel }: Props) {
       </header>
 
       <section className="cards">
-        <div className="card">
-          <p>Toplam Personel</p>
-          <strong>{personnel.length}</strong>
-        </div>
+        {cards.map((card) => {
+          const Icon = card.icon;
 
-        <div className="card">
-          <p>Toplam Maaş</p>
-          <strong>₺{totalSalary.toLocaleString("tr-TR")}</strong>
-        </div>
+          return (
+            <div className="card metricCard" key={card.title}>
+              <div className="metricIcon">
+                <Icon size={22} />
+              </div>
 
-        <div className="card">
-          <p>Aktif Personel</p>
-          <strong>{personnel.length}</strong>
-        </div>
-
-        <div className="card">
-          <p>Eksik Evrak</p>
-          <strong>0</strong>
-        </div>
+              <div>
+                <p>{card.title}</p>
+                <strong>{card.value}</strong>
+              </div>
+            </div>
+          );
+        })}
       </section>
 
       <section className="panel">
-        <h3>Son Eklenen Personeller</h3>
+        <div className="panelTitle">
+          <div>
+            <h3>Son Eklenen Personeller</h3>
+            <p>En son oluşturulan 5 personel kaydı.</p>
+          </div>
+        </div>
 
         {latestPersonnel.length === 0 ? (
           <p>Henüz personel eklenmemiş.</p>

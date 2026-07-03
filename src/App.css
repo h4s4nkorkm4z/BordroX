@@ -330,4 +330,35 @@ td:first-child {
 .sidebarSettings:hover {
   background: #252830;
   color: white;
+}.metricCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.metricIcon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: rgba(59, 130, 246, 0.14);
+  color: #3b82f6;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.panelTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.panelTitle h3 {
+  margin: 0;
+}
+
+.panelTitle p {
+  margin: 6px 0 0;
+  color: #9ca3af;
 }
