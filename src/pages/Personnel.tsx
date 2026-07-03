@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Eye, Pencil, Trash2 } from "lucide-react";
 import type { Personnel } from "../types/personnel";
 
 type Props = {
@@ -122,27 +123,30 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
                   </td>
                   <td>
                     <div className="rowActions">
-                      <button
-                        className="viewButton"
-                        onClick={() => setSelectedPerson(p)}
-                      >
-                        Görüntüle
-                      </button>
+  <button
+    className="iconButton"
+    title="Görüntüle"
+    onClick={() => setSelectedPerson(p)}
+  >
+    <Eye size={17} />
+  </button>
 
-                      <button
-                        className="editButton"
-                        onClick={() => openEditModal(p)}
-                      >
-                        Düzenle
-                      </button>
+  <button
+    className="iconButton edit"
+    title="Düzenle"
+    onClick={() => openEditModal(p)}
+  >
+    <Pencil size={17} />
+  </button>
 
-                      <button
-                        className="dangerButton"
-                        onClick={() => deletePersonnel(p.id)}
-                      >
-                        Sil
-                      </button>
-                    </div>
+  <button
+    className="iconButton delete"
+    title="Sil"
+    onClick={() => deletePersonnel(p.id)}
+  >
+    <Trash2 size={17} />
+  </button>
+</div>
                   </td>
                 </tr>
               ))}

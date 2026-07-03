@@ -9,18 +9,24 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+button,
+input,
+textarea {
+  font-family: inherit;
+}
+
 .app {
   min-height: 100vh;
   display: flex;
 }
 
 .sidebar {
-  display: flex;
-  flex-direction: column;
-  width: 250px;
+  width: 280px;
   background: #111827;
   border-right: 1px solid #293548;
   padding: 24px;
+  display: flex;
+  flex-direction: column;
 }
 
 .brand {
@@ -30,26 +36,100 @@ body {
   margin-bottom: 42px;
 }
 
-.brandIcon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
+.brandIcon,
+.avatar {
   background: #2563eb;
   display: grid;
   place-items: center;
   font-weight: 900;
 }
 
+.brandIcon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+}
+
 .brand h1 {
   margin: 0;
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .brand p {
-  margin: 3px 0 0;
+  margin: 4px 0 0;
   color: #94a3b8;
   font-size: 12px;
 }
+
+.menuList {
+  display: grid;
+  gap: 10px;
+}
+
+.menuButton {
+  background: transparent;
+  color: #cbd5e1;
+  border: 0;
+  text-align: left;
+  padding: 14px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 800;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.menuButton:hover,
+.menuButton.active {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+}
+
+.sidebarProfile {
+  margin-top: auto;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 18px;
+  padding: 14px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.sidebarProfile strong,
+.sidebarProfile span {
+  display: block;
+}
+
+.sidebarProfile span {
+  color: #94a3b8;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.sidebarSettings {
+  margin-top: 12px;
+  color: #9ca3af;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.sidebarSettings:hover {
+  background: #252830;
+  color: white;
+}
+
 .content {
   flex: 1;
   padding: 36px;
@@ -105,6 +185,29 @@ header p {
   padding: 24px;
 }
 
+.metricCard {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  transition: 0.2s;
+}
+
+.metricCard:hover {
+  transform: translateY(-3px);
+  border-color: #3b82f6;
+}
+
+.metricIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(59, 130, 246, 0.14);
+  color: #3b82f6;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
 .card p {
   margin: 0 0 16px;
   color: #94a3b8;
@@ -125,98 +228,76 @@ header p {
 
 .panel p {
   color: #94a3b8;
-}.dangerButton {
-  background: #ef4444;
-  color: white;
-  border: 0;
-  border-radius: 10px;
-  padding: 9px 13px;
-  cursor: pointer;
-  font-weight: 800;
 }
 
-.dangerButton:hover {
-  background: #dc2626;
-}.rowActions {
+.panelTitle {
   display: flex;
-  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
 }
 
-.editButton {
-  background: #2563eb;
-  color: white;
-  border: 0;
-  border-radius: 10px;
-  padding: 9px 13px;
-  cursor: pointer;
-  font-weight: 800;
+.panelTitle h3 {
+  margin: 0;
 }
 
-.editButton:hover {
-  background: #1d4ed8;
-}.modal textarea {
+.panelTitle p {
+  margin: 6px 0 0;
+  color: #9ca3af;
+}
+
+.toolbar {
+  margin-top: 28px;
+  margin-bottom: 16px;
+}
+
+.toolbar input {
+  width: 360px;
   background: #020617;
   border: 1px solid #334155;
   color: white;
   padding: 14px;
   border-radius: 12px;
-  min-height: 90px;
-  resize: vertical;
-}.menuList {
-  display: grid;
-  gap: 10px;
+  outline: none;
 }
 
-.menuButton {
-  background: transparent;
-  color: #cbd5e1;
-  border: 0;
+.toolbar input:focus {
+  border-color: #2563eb;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+thead th {
+  color: #9ca3af;
+  font-size: 13px;
+  font-weight: 600;
   text-align: left;
-  padding: 14px;
-  border-radius: 14px;
-  cursor: pointer;
+  padding: 12px 16px;
+}
+
+tbody td {
+  background: #252830;
+  padding: 16px;
+}
+
+tbody tr:hover td {
+  background: #20242c;
+}
+
+tbody td:first-child {
+  border-radius: 12px 0 0 12px;
   font-weight: 800;
-  display: flex;
-  gap: 12px;
-  align-items: center;
 }
 
-.menuButton:hover,
-.menuButton.active {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: white;
+tbody td:last-child {
+  border-radius: 0 12px 12px 0;
 }
 
-.sidebarProfile {
-  margin-top: auto;
-  background: #0f172a;
-  border: 1px solid #334155;
-  border-radius: 18px;
-  padding: 14px;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  background: #2563eb;
-  display: grid;
-  place-items: center;
-  font-weight: 900;
-}
-
-.sidebarProfile strong {
-  display: block;
-}
-
-.sidebarProfile span {
-  display: block;
-  color: #94a3b8;
-  font-size: 12px;
-}.statusBadge {
+.statusBadge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -229,24 +310,90 @@ header p {
   font-weight: 800;
 }
 
-tbody tr:hover {
-  background: #20242c;
+.rowActions {
+  display: flex;
+  gap: 8px;
 }
 
-td:first-child {
-  font-weight: 800;
-}.viewButton {
-  background: #343843;
-  color: white;
-  border: 0;
+.iconButton {
+  width: 38px;
+  height: 38px;
+  border: none;
   border-radius: 10px;
-  padding: 9px 13px;
+  background: #2b2f37;
+  color: #d1d5db;
+  display: grid;
+  place-items: center;
   cursor: pointer;
-  font-weight: 800;
+  transition: 0.18s;
 }
 
-.viewButton:hover {
-  background: #3f4654;
+.iconButton:hover {
+  background: #3b82f6;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.iconButton.edit:hover {
+  background: #f59e0b;
+}
+
+.iconButton.delete:hover {
+  background: #dc2626;
+}
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: grid;
+  place-items: center;
+}
+
+.modal {
+  width: 420px;
+  background: #111827;
+  border: 1px solid #334155;
+  border-radius: 18px;
+  padding: 24px;
+  display: grid;
+  gap: 14px;
+}
+
+.modal h3 {
+  margin: 0 0 10px;
+}
+
+.modal input,
+.modal textarea {
+  background: #020617;
+  border: 1px solid #334155;
+  color: white;
+  padding: 14px;
+  border-radius: 12px;
+}
+
+.modal textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.modalActions button {
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 0;
+  cursor: pointer;
+}
+
+.modalActions button:last-child {
+  background: #2563eb;
+  color: white;
 }
 
 .detailPanel {
@@ -316,49 +463,4 @@ td:first-child {
 .detailNotes p {
   margin: 0;
   color: #f3f4f6;
-}.sidebarSettings {
-  margin-top: 12px;
-  color: #9ca3af;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  padding: 12px 14px;
-  border-radius: 14px;
-  cursor: pointer;
-}
-
-.sidebarSettings:hover {
-  background: #252830;
-  color: white;
-}.metricCard {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.metricIcon {
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  background: rgba(59, 130, 246, 0.14);
-  color: #3b82f6;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-}
-
-.panelTitle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-}
-
-.panelTitle h3 {
-  margin: 0;
-}
-
-.panelTitle p {
-  margin: 6px 0 0;
-  color: #9ca3af;
 }
