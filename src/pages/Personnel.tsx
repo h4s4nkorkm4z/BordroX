@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import type { Personnel } from "../types/personnel";
+import PersonnelToolbar from "../components/personnel/PersonnelToolbar";
 
 type Props = {
   personnel: Personnel[];
@@ -84,15 +85,11 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
           + Yeni Personel
         </button>
       </header>
-
-      <div className="toolbar">
-        <input
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          placeholder="Personel ara..."
-        />
-      </div>
-
+<PersonnelToolbar
+  search={search}
+  setSearch={setSearch}
+  onCreate={openCreateModal}
+/>
       <section className="panel">
         {filteredPersonnel.length === 0 ? (
           <p>Personel bulunamadı.</p>

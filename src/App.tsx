@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/layout/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import PersonnelPage from "./pages/Personnel";
 import PayrollPage from "./pages/Payroll";

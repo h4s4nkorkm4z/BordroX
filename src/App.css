@@ -463,4 +463,24 @@ tbody td:last-child {
 .detailNotes p {
   margin: 0;
   color: #f3f4f6;
+}.personnelToolbar {
+  margin-top: 28px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.personnelToolbar input {
+  width: 360px;
+  background: #020617;
+  border: 1px solid #334155;
+  color: white;
+  padding: 14px;
+  border-radius: 12px;
+  outline: none;
+}
+
+.personnelToolbar input:focus {
+  border-color: #2563eb;
 }
