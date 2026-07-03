@@ -33,4 +33,21 @@ declare global {
   }
 }
 
-export {};
+export {};import type { Personnel } from "./types/personnel";
+
+declare global {
+  interface Window {
+    bordroxAPI: {
+      personnel: {
+        list: () => Promise<Personnel[]>;
+        create: (data: {
+          name: string;
+          position: string;
+          phone?: string;
+          salary: number;
+        }) => Promise<Personnel>;
+        delete: (id: number) => Promise<Personnel>;
+      };
+    };
+  }
+}

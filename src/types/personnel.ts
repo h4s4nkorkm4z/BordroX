@@ -13,4 +13,5 @@ export type Personnel = {
   salary: number;
   createdAt?: string | Date;
   updatedAt?: string | Date;
-};
+  status?: "Aktif" | "İzinli" | "Ayrıldı";
+}
