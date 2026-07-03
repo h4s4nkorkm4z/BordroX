@@ -523,4 +523,19 @@ tbody td:last-child {
 .personNameCell {
   display: flex;
   align-items: center;
+}.personInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.personInfo strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.personInfo small {
+  color: #9ca3af;
+  font-size: 12px;
+  margin-top: 2px;
 }

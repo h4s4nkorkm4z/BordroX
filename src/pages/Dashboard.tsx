@@ -1,4 +1,4 @@
-import { FileWarning, Users, Wallet, UserCheck } from "lucide-react";
+import { FileText, TrendingUp, Users, Wallet } from "lucide-react";
 import type { Personnel } from "../types/personnel";
 
 type Props = {
@@ -7,13 +7,23 @@ type Props = {
 
 export default function Dashboard({ personnel }: Props) {
   const totalSalary = personnel.reduce((sum, p) => sum + p.salary, 0);
+
+  const averageSalary =
+    personnel.length > 0 ? Math.round(totalSalary / personnel.length) : 0;
+
+  const highestSalary =
+    personnel.length > 0 ? Math.max(...personnel.map((p) => p.salary)) : 0;
+
+  const latestPerson =
+    personnel.length > 0 ? personnel[personnel.length - 1].name : "-";
+
   const latestPersonnel = personnel.slice(0, 5);
 
   const cards = [
     { title: "Toplam Personel", value: personnel.length, icon: Users },
-    { title: "Toplam Maaş", value: `₺${totalSalary.toLocaleString("tr-TR")}`, icon: Wallet },
-    { title: "Aktif Personel", value: personnel.length, icon: UserCheck },
-    { title: "Eksik Evrak", value: 0, icon: FileWarning },
+    { title: "Ortalama Maaş", value: `₺${averageSalary.toLocaleString("tr-TR")}`, icon: Wallet },
+    { title: "En Yüksek Maaş", value: `₺${highestSalary.toLocaleString("tr-TR")}`, icon: TrendingUp },
+    { title: "Son Eklenen", value: latestPerson, icon: FileText },
   ];
 
   return (
@@ -21,8 +31,8 @@ export default function Dashboard({ personnel }: Props) {
       <header>
         <div>
           <span>01 — Dashboard</span>
-          <h2>Personel Özeti</h2>
-          <p>İşletmedeki personel durumunu sade şekilde takip edin.</p>
+          <h2>Dashboard</h2>
+          <p>Personel yönetim sistemine genel bakış.</p>
         </div>
       </header>
 
@@ -49,7 +59,7 @@ export default function Dashboard({ personnel }: Props) {
         <div className="panelTitle">
           <div>
             <h3>Son Eklenen Personeller</h3>
-            <p>En son oluşturulan 5 personel kaydı.</p>
+            <p>Son 5 kayıt</p>
           </div>
         </div>
 

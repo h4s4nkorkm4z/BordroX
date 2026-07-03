@@ -18,6 +18,7 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
     await window.bordroxAPI.personnel.create({
       name: String(form.get("name")),
       position: String(form.get("position")),
+      department: String(form.get("department")),
       phone: String(form.get("phone")),
       salary: Number(form.get("salary")),
     });
@@ -57,6 +58,7 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
               <tr>
                 <th>Ad Soyad</th>
                 <th>Pozisyon</th>
+                <th>Departman</th>
                 <th>Telefon</th>
                 <th>Maaş</th>
                 <th>Durum</th>
@@ -77,10 +79,15 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
         .slice(0, 2)
         .toUpperCase()}
     </div>
-    <span>{p.name}</span>
+    <div className="personInfo">
+  <strong>{p.name}</strong>
+  <small>{p.position}</small>
+  <input name="department" placeholder="Departman" />
+</div>
   </div>
 </td>
                   <td>{p.position}</td>
+                  <td>{p.department || "-"}</td>
                   <td>{p.phone}</td>
                   <td>₺{p.salary.toLocaleString("tr-TR")}</td>
                   <td>
