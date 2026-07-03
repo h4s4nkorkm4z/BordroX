@@ -9,20 +9,38 @@ type Props = {
 
 export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [editingPerson, setEditingPerson] = useState<Personnel | null>(null);
 
-  async function addPersonnel(event: React.FormEvent<HTMLFormElement>) {
+  function openCreateModal() {
+    setEditingPerson(null);
+    setModalOpen(true);
+  }
+
+  function openEditModal(person: Personnel) {
+    setEditingPerson(person);
+    setModalOpen(true);
+  }
+
+  async function savePersonnel(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const form = new FormData(event.currentTarget);
 
-    await window.bordroxAPI.personnel.create({
+    const data = {
       name: String(form.get("name")),
       position: String(form.get("position")),
       phone: String(form.get("phone")),
       salary: Number(form.get("salary")),
-    });
+    };
+
+    if (editingPerson) {
+      await window.bordroxAPI.personnel.update(editingPerson.id, data);
+    } else {
+      await window.bordroxAPI.personnel.create(data);
+    }
 
     setModalOpen(false);
+    setEditingPerson(null);
     await reloadPersonnel();
   }
 
@@ -32,9 +50,7 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
 
     await window.bordroxAPI.personnel.delete(id);
     await reloadPersonnel();
-  }
-
-  return (
+  }  return (
     <>
       <header>
         <div>
@@ -43,7 +59,7 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
           <p>Tüm çalışanları buradan yönetin.</p>
         </div>
 
-        <button className="newButton" onClick={() => setModalOpen(true)}>
+        <button className="newButton" onClick={openCreateModal}>
           + Yeni Personel
         </button>
       </header>
@@ -59,7 +75,6 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
                 <th>Pozisyon</th>
                 <th>Telefon</th>
                 <th>Maaş</th>
-                <th>Durum</th>
                 <th>İşlem</th>
               </tr>
             </thead>
@@ -72,7 +87,7 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
                       <div className="personAvatar">
                         {p.name
                           .split(" ")
-                          .map((word) => word[0])
+                          .map((w) => w[0])
                           .join("")
                           .slice(0, 2)
                           .toUpperCase()}
@@ -86,18 +101,29 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
                   </td>
 
                   <td>{p.position}</td>
+
                   <td>{p.phone || "-"}</td>
-                  <td>₺{p.salary.toLocaleString("tr-TR")}</td>
+
                   <td>
-                    <span className="statusBadge">Aktif</span>
+                    ₺{p.salary.toLocaleString("tr-TR")}
                   </td>
+
                   <td>
-                    <button
-                      className="dangerButton"
-                      onClick={() => deletePersonnel(p.id)}
-                    >
-                      Sil
-                    </button>
+                    <div className="rowActions">
+                      <button
+                        className="editButton"
+                        onClick={() => openEditModal(p)}
+                      >
+                        Düzenle
+                      </button>
+
+                      <button
+                        className="dangerButton"
+                        onClick={() => deletePersonnel(p.id)}
+                      >
+                        Sil
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -108,24 +134,55 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
 
       {modalOpen && (
         <div className="modalBackdrop">
-          <form className="modal" onSubmit={addPersonnel}>
-            <h3>Yeni Personel</h3>
+          <form className="modal" onSubmit={savePersonnel}>
+            <h3>
+              {editingPerson
+                ? "Personel Düzenle"
+                : "Yeni Personel"}
+            </h3>
 
-            <input name="name" placeholder="Ad Soyad" required />
-            <input name="position" placeholder="Pozisyon" required />
-            <input name="phone" placeholder="Telefon" />
+            <input
+              name="name"
+              placeholder="Ad Soyad"
+              defaultValue={editingPerson?.name ?? ""}
+              required
+            />
+
+            <input
+              name="position"
+              placeholder="Pozisyon"
+              defaultValue={editingPerson?.position ?? ""}
+              required
+            />
+
+            <input
+              name="phone"
+              placeholder="Telefon"
+              defaultValue={editingPerson?.phone ?? ""}
+            />
+
             <input
               name="salary"
               type="number"
               placeholder="Aylık Maaş"
+              defaultValue={editingPerson?.salary ?? ""}
               required
-            />
-
-            <div className="modalActions">
-              <button type="button" onClick={() => setModalOpen(false)}>
+            />            <div className="modalActions">
+              <button
+                type="button"
+                onClick={() => {
+                  setModalOpen(false);
+                  setEditingPerson(null);
+                }}
+              >
                 İptal
               </button>
-              <button type="submit">Kaydet</button>
+
+              <button type="submit">
+                {editingPerson
+                  ? "Güncelle"
+                  : "Kaydet"}
+              </button>
             </div>
           </form>
         </div>
