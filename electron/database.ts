@@ -5,39 +5,30 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
+type PersonnelData = {
+  name: string;
+  position: string;
+  phone?: string;
+  salary: number;
+};
+
 export const database = {
-  personnel: {update(
-  id: number,
-  data: {
-    name: string;
-    position: string;
-    phone?: string;
-    salary: number;
-  }
-) {
-  return prisma.personnel.update({
-    where: { id },
-    data,
-  });
-},
+  personnel: {
     list() {
       return prisma.personnel.findMany({
         orderBy: { createdAt: "desc" },
       });
     },
 
-    create(data: {
-      name: string;
-      position: string;
-      phone?: string;
-      email?: string;
-      nationalId?: string;
-      iban?: string;
-      hireDate?: string;
-      notes?: string;
-      salary: number;
-    }) {
+    create(data: PersonnelData) {
       return prisma.personnel.create({
+        data,
+      });
+    },
+
+    update(id: number, data: PersonnelData) {
+      return prisma.personnel.update({
+        where: { id },
         data,
       });
     },

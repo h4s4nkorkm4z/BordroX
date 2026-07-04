@@ -7,12 +7,6 @@ const { PrismaClient } = require$1("@prisma/client");
 const prisma = new PrismaClient();
 const database = {
   personnel: {
-    update(id, data) {
-      return prisma.personnel.update({
-        where: { id },
-        data
-      });
-    },
     list() {
       return prisma.personnel.findMany({
         orderBy: { createdAt: "desc" }
@@ -20,6 +14,12 @@ const database = {
     },
     create(data) {
       return prisma.personnel.create({
+        data
+      });
+    },
+    update(id, data) {
+      return prisma.personnel.update({
+        where: { id },
         data
       });
     },

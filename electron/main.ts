@@ -27,7 +27,9 @@ ipcMain.handle("personnel:create", async (_event, data) => {
 
 ipcMain.handle("personnel:delete", async (_event, id: number) => {
   return database.personnel.delete(id);
-});ipcMain.handle("personnel:update", async (_event, id: number, data) => {
+  });
+
+ipcMain.handle("personnel:update", async (_event, id: number, data) => {
   return database.personnel.update(id, data);
 });
 
