@@ -1,4 +1,4 @@
-import { FileText, TrendingUp, Users, Wallet } from "lucide-react";
+import { TrendingUp, Users, Wallet, BadgeDollarSign } from "lucide-react";
 import type { Personnel } from "../types/personnel";
 
 type Props = {
@@ -14,16 +14,29 @@ export default function Dashboard({ personnel }: Props) {
   const highestSalary =
     personnel.length > 0 ? Math.max(...personnel.map((p) => p.salary)) : 0;
 
-  const latestPerson =
-    personnel.length > 0 ? personnel[personnel.length - 1].name : "-";
-
   const latestPersonnel = personnel.slice(0, 5);
 
   const cards = [
-    { title: "Toplam Personel", value: personnel.length, icon: Users },
-    { title: "Ortalama Maaş", value: `₺${averageSalary.toLocaleString("tr-TR")}`, icon: Wallet },
-    { title: "En Yüksek Maaş", value: `₺${highestSalary.toLocaleString("tr-TR")}`, icon: TrendingUp },
-    { title: "Son Eklenen", value: latestPerson, icon: FileText },
+    {
+      title: "Toplam Personel",
+      value: personnel.length,
+      icon: Users,
+    },
+    {
+      title: "Ortalama Maaş",
+      value: `₺${averageSalary.toLocaleString("tr-TR")}`,
+      icon: Wallet,
+    },
+    {
+      title: "En Yüksek Maaş",
+      value: `₺${highestSalary.toLocaleString("tr-TR")}`,
+      icon: TrendingUp,
+    },
+    {
+      title: "Toplam Maaş",
+      value: `₺${totalSalary.toLocaleString("tr-TR")}`,
+      icon: BadgeDollarSign,
+    },
   ];
 
   return (
@@ -59,7 +72,7 @@ export default function Dashboard({ personnel }: Props) {
         <div className="panelTitle">
           <div>
             <h3>Son Eklenen Personeller</h3>
-            <p>Son 5 kayıt</p>
+            <p>Son 5 personel kaydı</p>
           </div>
         </div>
 
@@ -81,7 +94,7 @@ export default function Dashboard({ personnel }: Props) {
                 <tr key={person.id}>
                   <td>{person.name}</td>
                   <td>{person.position}</td>
-                  <td>{person.phone}</td>
+                  <td>{person.phone || "-"}</td>
                   <td>₺{person.salary.toLocaleString("tr-TR")}</td>
                 </tr>
               ))}

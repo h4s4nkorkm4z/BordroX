@@ -25,12 +25,12 @@ ipcMain.handle("personnel:create", async (_event, data) => {
   return database.personnel.create(data);
 });
 
-ipcMain.handle("personnel:delete", async (_event, id: number) => {
-  return database.personnel.delete(id);
-  });
-
 ipcMain.handle("personnel:update", async (_event, id: number, data) => {
   return database.personnel.update(id, data);
+});
+
+ipcMain.handle("personnel:delete", async (_event, id: number) => {
+  return database.personnel.delete(id);
 });
 
 function createWindow() {

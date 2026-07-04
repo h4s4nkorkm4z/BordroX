@@ -21,9 +21,7 @@ export const database = {
     },
 
     create(data: PersonnelData) {
-      return prisma.personnel.create({
-        data,
-      });
+      return prisma.personnel.create({ data });
     },
 
     update(id: number, data: PersonnelData) {

@@ -13,9 +13,7 @@ const database = {
       });
     },
     create(data) {
-      return prisma.personnel.create({
-        data
-      });
+      return prisma.personnel.create({ data });
     },
     update(id, data) {
       return prisma.personnel.update({
@@ -43,11 +41,11 @@ ipcMain.handle("personnel:list", async () => {
 ipcMain.handle("personnel:create", async (_event, data) => {
   return database.personnel.create(data);
 });
-ipcMain.handle("personnel:delete", async (_event, id) => {
-  return database.personnel.delete(id);
-});
 ipcMain.handle("personnel:update", async (_event, id, data) => {
   return database.personnel.update(id, data);
+});
+ipcMain.handle("personnel:delete", async (_event, id) => {
+  return database.personnel.delete(id);
 });
 function createWindow() {
   win = new BrowserWindow({
