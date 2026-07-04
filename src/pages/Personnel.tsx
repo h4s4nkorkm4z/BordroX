@@ -45,12 +45,19 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
   }
 
   async function deletePersonnel(id: number) {
-    const confirmDelete = window.confirm("Bu personeli silmek istiyor musun?");
+    const person = personnel.find((p) => p.id === id);
+
+    const confirmDelete = window.confirm(
+      `"${person?.name}" adlı personeli silmek istediğinize emin misiniz?\n\nBu işlem geri alınamaz.`
+    );
+
     if (!confirmDelete) return;
 
     await window.bordroxAPI.personnel.delete(id);
     await reloadPersonnel();
-  }  return (
+  }
+
+  return (
     <>
       <header>
         <div>
@@ -66,7 +73,20 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
 
       <section className="panel">
         {personnel.length === 0 ? (
-          <p>Henüz personel eklenmemiş.</p>
+          <div
+            style={{
+              textAlign: "center",
+              padding: "70px 20px",
+              color: "#94a3b8",
+            }}
+          >
+            <h3>Henüz personel bulunmuyor</h3>
+            <p>
+              İlk personelinizi eklemek için
+              <br />
+              sağ üstteki <strong>+ Yeni Personel</strong> butonunu kullanın.
+            </p>
+          </div>
         ) : (
           <table>
             <thead>
@@ -101,12 +121,8 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
                   </td>
 
                   <td>{p.position}</td>
-
                   <td>{p.phone || "-"}</td>
-
-                  <td>
-                    ₺{p.salary.toLocaleString("tr-TR")}
-                  </td>
+                  <td>₺{p.salary.toLocaleString("tr-TR")}</td>
 
                   <td>
                     <div className="rowActions">
@@ -135,11 +151,7 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
       {modalOpen && (
         <div className="modalBackdrop">
           <form className="modal" onSubmit={savePersonnel}>
-            <h3>
-              {editingPerson
-                ? "Personel Düzenle"
-                : "Yeni Personel"}
-            </h3>
+            <h3>{editingPerson ? "Personel Düzenle" : "Yeni Personel"}</h3>
 
             <input
               name="name"
@@ -167,7 +179,9 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
               placeholder="Aylık Maaş"
               defaultValue={editingPerson?.salary ?? ""}
               required
-            />            <div className="modalActions">
+            />
+
+            <div className="modalActions">
               <button
                 type="button"
                 onClick={() => {
@@ -179,9 +193,7 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
               </button>
 
               <button type="submit">
-                {editingPerson
-                  ? "Güncelle"
-                  : "Kaydet"}
+                {editingPerson ? "Güncelle" : "Kaydet"}
               </button>
             </div>
           </form>

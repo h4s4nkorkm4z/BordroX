@@ -538,4 +538,11 @@ tbody td:last-child {
   color: #9ca3af;
   font-size: 12px;
   margin-top: 2px;
+}table tbody tr{
+    transition:.18s;
+}
+
+table tbody tr:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 18px rgba(0,0,0,.18);
 }
