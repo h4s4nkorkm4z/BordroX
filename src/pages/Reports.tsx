@@ -2,7 +2,7 @@ export default function ReportsPage() {
   return (
     <section className="panel">
       <h2>Raporlar</h2>
-      <p>PDF ve Excel raporlarý sonraki aþamada eklenecek.</p>
+      <p>PDF ve Excel raporlarÄ± sonraki aÅŸamada eklenecek.</p>
     </section>
   );
 }

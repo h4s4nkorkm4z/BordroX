@@ -12,6 +12,13 @@ dist
 dist-ssr
 *.local
 
+# Electron build output
+release/
+dist-electron/
+
+# Generated
+/src/generated/prisma
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,5 +29,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-/src/generated/prisma

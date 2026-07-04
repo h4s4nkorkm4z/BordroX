@@ -22,12 +22,17 @@ export default function Sidebar({ page, setPage }: Props) {
   return (
     <aside className="sidebar">
       <div className="brand">
-        <div className="brandIcon">BX</div>
-        <div>
-          <h1>BordroX</h1>
-          <p>Personel Yönetimi</p>
-        </div>
-      </div>
+  <img
+    src="/bordrox-icon-512.png"
+    alt="BordroX"
+    className="brandLogo"
+  />
+
+  <div>
+    <h1>BordroX</h1>
+    <p>Personel Yönetim Sistemi</p>
+  </div>
+</div>
 
       <nav className="menuList">
         {menu.map((item) => {

@@ -1,85 +1,61 @@
-import { ipcMain, app, BrowserWindow } from "electron";
-import { fileURLToPath } from "node:url";
-import path from "node:path";
-import { createRequire } from "node:module";
-const require$1 = createRequire(import.meta.url);
-const { PrismaClient } = require$1("@prisma/client");
-const prisma = new PrismaClient();
-const database = {
+import { ipcMain as i, app as s, BrowserWindow as p } from "electron";
+import { fileURLToPath as _ } from "node:url";
+import n from "node:path";
+import { createRequire as h } from "node:module";
+const R = h(import.meta.url), { PrismaClient: w } = R("@prisma/client"), t = new w(), l = {
   personnel: {
     list() {
-      return prisma.personnel.findMany({
+      return t.personnel.findMany({
         orderBy: { createdAt: "desc" }
       });
     },
-    create(data) {
-      return prisma.personnel.create({ data });
+    create(e) {
+      return t.personnel.create({ data: e });
     },
-    update(id, data) {
-      return prisma.personnel.update({
-        where: { id },
-        data
+    update(e, r) {
+      return t.personnel.update({
+        where: { id: e },
+        data: r
       });
     },
-    delete(id) {
-      return prisma.personnel.delete({
-        where: { id }
+    delete(e) {
+      return t.personnel.delete({
+        where: { id: e }
       });
     }
   }
-};
-const __dirname$1 = path.dirname(fileURLToPath(import.meta.url));
-process.env.APP_ROOT = path.join(__dirname$1, "..");
-const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
-const MAIN_DIST = path.join(process.env.APP_ROOT, "dist-electron");
-const RENDERER_DIST = path.join(process.env.APP_ROOT, "dist");
-process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, "public") : RENDERER_DIST;
-let win;
-ipcMain.handle("personnel:list", async () => {
-  return database.personnel.list();
-});
-ipcMain.handle("personnel:create", async (_event, data) => {
-  return database.personnel.create(data);
-});
-ipcMain.handle("personnel:update", async (_event, id, data) => {
-  return database.personnel.update(id, data);
-});
-ipcMain.handle("personnel:delete", async (_event, id) => {
-  return database.personnel.delete(id);
-});
-function createWindow() {
-  win = new BrowserWindow({
+}, c = n.dirname(_(import.meta.url));
+process.env.APP_ROOT = n.join(c, "..");
+const a = process.env.VITE_DEV_SERVER_URL, I = n.join(process.env.APP_ROOT, "dist-electron"), d = n.join(process.env.APP_ROOT, "dist");
+process.env.VITE_PUBLIC = a ? n.join(process.env.APP_ROOT, "public") : d;
+let o;
+i.handle("personnel:list", async () => l.personnel.list());
+i.handle("personnel:create", async (e, r) => l.personnel.create(r));
+i.handle("personnel:update", async (e, r, u) => l.personnel.update(r, u));
+i.handle("personnel:delete", async (e, r) => l.personnel.delete(r));
+function m() {
+  o = new p({
     width: 1200,
     height: 800,
     minWidth: 1e3,
     minHeight: 700,
-    icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
+    icon: n.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
     webPreferences: {
-      preload: path.join(__dirname$1, "preload.mjs"),
-      contextIsolation: true,
-      nodeIntegration: false
+      preload: n.join(c, "preload.mjs"),
+      contextIsolation: !0,
+      nodeIntegration: !1
     }
-  });
-  if (VITE_DEV_SERVER_URL) {
-    win.loadURL(VITE_DEV_SERVER_URL);
-  } else {
-    win.loadFile(path.join(RENDERER_DIST, "index.html"));
-  }
+  }), a ? o.loadURL(a) : o.loadFile(n.join(d, "index.html"));
 }
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-    win = null;
-  }
+s.on("window-all-closed", () => {
+  process.platform !== "darwin" && (s.quit(), o = null);
 });
-app.on("activate", () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
+s.on("activate", () => {
+  p.getAllWindows().length === 0 && m();
 });
-app.whenReady().then(createWindow);
+s.whenReady().then(m);
 export {
-  MAIN_DIST,
-  RENDERER_DIST,
-  VITE_DEV_SERVER_URL
+  I as MAIN_DIST,
+  d as RENDERER_DIST,
+  a as VITE_DEV_SERVER_URL
 };
