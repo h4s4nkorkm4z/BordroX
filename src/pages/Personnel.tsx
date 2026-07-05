@@ -120,33 +120,46 @@ if (iban && iban.length > 0 && iban.replace(/\s/g, "").length < 15) {
       </header>
        
       <section className="panel">
-        <div className="personnelToolbar">
+       <div className="personnelToolbar modernToolbar">
+  <div className="searchBox">
+    <span>🔍</span>
 
-  <input
-    type="text"
-    placeholder="🔍 Personel ara..."
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-  />
+    <input
+      type="text"
+      placeholder="Personel ara..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
 
-  <select
-    value={departmentFilter}
-    onChange={(e) => setDepartmentFilter(e.target.value)}
-  >
-    <option>Tümü</option>
+    {search && (
+      <button type="button" onClick={() => setSearch("")}>
+        ×
+      </button>
+    )}
+  </div>
 
-    {[
-  ...new Set(
-    personnel
-      .map((p) => p.department)
-      .filter((department): department is string => Boolean(department))
-  ),
-].map((department) => (
-  <option key={department} value={department}>
-    {department}
-  </option>
-))}
-  </select>
+  <div className="filterBox">
+    <span>☷</span>
+
+    <select
+      value={departmentFilter}
+      onChange={(e) => setDepartmentFilter(e.target.value)}
+    >
+      <option>Tümü</option>
+
+      {[
+        ...new Set(
+          personnel
+            .map((p) => p.department)
+            .filter((department): department is string => Boolean(department))
+        ),
+      ].map((department) => (
+        <option key={department} value={department}>
+          {department}
+        </option>
+      ))}
+    </select>
+  </div>
 </div>
 
         {filteredPersonnel.length === 0 ? (
@@ -235,89 +248,155 @@ if (iban && iban.length > 0 && iban.replace(/\s/g, "").length < 15) {
       </section>
 
       {selectedPerson && (
-        <section className="detailPanel">
-          <div className="detailHeader">
-            <div>
-              <h3>{selectedPerson.name}</h3>
-              <p>{selectedPerson.position}</p>
-            </div>
+  <section className="detailPanel modernDetailPanel">
+    <div className="modernDetailHeader">
+      <div className="detailTitleRow">
+        <div className="detailIcon">👤</div>
 
-            <button onClick={() => setSelectedPerson(null)}>Kapat</button>
-          </div>
+        <div>
+          <h3>Personel Detayı</h3>
+          <p>Personel bilgilerini görüntüleyin ve yönetin.</p>
+        </div>
+      </div>
 
-          <div className="detailGrid">
-            <div>
-              <span>Ad Soyad</span>
-              <strong>{selectedPerson.name}</strong>
-            </div>
+      <button onClick={() => setSelectedPerson(null)}>×</button>
+    </div>
 
-            <div>
-              <span>Pozisyon</span>
-              <strong>{selectedPerson.position}</strong>
-            </div>
+    <div className="profileSummary">
+      <div className="profileAvatar">
+        {selectedPerson.name.slice(0, 1).toUpperCase()}
+      </div>
 
-            <div>
-              <span>Departman</span>
-              <strong>{selectedPerson.department || "-"}</strong>
-            </div>
+      <div className="profileMain">
+        <h2>{selectedPerson.name}</h2>
+        <span>{selectedPerson.position}</span>
+      </div>
 
-            <div>
-              <span>Telefon</span>
-              <strong>{selectedPerson.phone || "-"}</strong>
-            </div>
+      <div className="summaryItem">
+        <small>Departman</small>
+        <strong>{selectedPerson.department || "-"}</strong>
+      </div>
 
-            <div>
-              <span>E-posta</span>
-              <strong>{selectedPerson.email || "-"}</strong>
-            </div>
+      <div className="summaryItem">
+        <small>Telefon</small>
+        <strong>{selectedPerson.phone || "-"}</strong>
+      </div>
 
-            <div>
-              <span>T.C. Kimlik No</span>
-              <strong>{selectedPerson.nationalId || "-"}</strong>
-            </div>
+      <div className="summaryItem">
+        <small>E-posta</small>
+        <strong>{selectedPerson.email || "-"}</strong>
+      </div>
+    </div>
 
-            <div>
-              <span>Doğum Tarihi</span>
-              <strong>{selectedPerson.birthDate || "-"}</strong>
-            </div>
+    <div className="modernDetailGrid">
+      <div className="modernInfoCard">
+        <h4>Kişisel Bilgiler</h4>
 
-            <div>
-              <span>İşe Giriş Tarihi</span>
-              <strong>{selectedPerson.hireDate || "-"}</strong>
-            </div>
+        <div className="infoRow">
+          <span>Ad Soyad</span>
+          <strong>{selectedPerson.name}</strong>
+        </div>
 
-            <div>
-              <span>Maaş</span>
-              <strong>₺{selectedPerson.salary.toLocaleString("tr-TR")}</strong>
-            </div>
+        <div className="infoRow">
+          <span>T.C. Kimlik No</span>
+          <strong>{selectedPerson.nationalId || "-"}</strong>
+        </div>
 
-            <div>
-              <span>IBAN</span>
-              <strong>{selectedPerson.iban || "-"}</strong>
-            </div>
+        <div className="infoRow">
+          <span>Doğum Tarihi</span>
+          <strong>{selectedPerson.birthDate || "-"}</strong>
+        </div>
 
-            <div>
-              <span>Acil Durum Kişisi</span>
-              <strong>{selectedPerson.emergencyName || "-"}</strong>
-            </div>
+        <div className="infoRow">
+          <span>Acil Durum Kişisi</span>
+          <strong>{selectedPerson.emergencyName || "-"}</strong>
+        </div>
 
-            <div>
-              <span>Acil Durum Telefonu</span>
-              <strong>{selectedPerson.emergencyPhone || "-"}</strong>
-            </div>
-          </div>
+        <div className="infoRow">
+          <span>Acil Durum Telefonu</span>
+          <strong>{selectedPerson.emergencyPhone || "-"}</strong>
+        </div>
+      </div>
 
-          <div className="detailNotes">
-            <span>Adres</span>
-            <p>{selectedPerson.address || "Adres bulunmuyor."}</p>
-          </div>
+      <div className="modernInfoCard">
+        <h4>İş Bilgileri</h4>
 
-          <div className="detailNotes">
-            <span>Notlar</span>
-            <p>{selectedPerson.notes || "Not bulunmuyor."}</p>
-          </div>
-        </section>
-      )}
+        <div className="infoRow">
+          <span>Pozisyon</span>
+          <strong>{selectedPerson.position}</strong>
+        </div>
+
+        <div className="infoRow">
+          <span>Departman</span>
+          <strong>{selectedPerson.department || "-"}</strong>
+        </div>
+
+        <div className="infoRow">
+          <span>İşe Giriş Tarihi</span>
+          <strong>{selectedPerson.hireDate || "-"}</strong>
+        </div>
+
+        <div className="infoRow">
+          <span>Maaş</span>
+          <strong>₺{selectedPerson.salary.toLocaleString("tr-TR")}</strong>
+        </div>
+
+        <div className="infoRow">
+          <span>IBAN</span>
+          <strong>{selectedPerson.iban || "-"}</strong>
+        </div>
+      </div>
+
+      <div className="modernInfoCard">
+        <h4>İletişim Bilgileri</h4>
+
+        <div className="infoRow">
+          <span>Telefon</span>
+          <strong>{selectedPerson.phone || "-"}</strong>
+        </div>
+
+        <div className="infoRow">
+          <span>E-posta</span>
+          <strong>{selectedPerson.email || "-"}</strong>
+        </div>
+      </div>
+
+      <div className="modernInfoCard">
+        <h4>Diğer Bilgiler</h4>
+
+        <div className="infoRow">
+          <span>Adres</span>
+          <strong>{selectedPerson.address || "Adres bulunmuyor."}</strong>
+        </div>
+
+        <div className="infoRow">
+          <span>Notlar</span>
+          <strong>{selectedPerson.notes || "Not bulunmuyor."}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div className="detailFooter">
+      <button onClick={() => setSelectedPerson(null)}>Kapat</button>
+
+      <div>
+        <button
+          className="editButton"
+          onClick={() => openEditModal(selectedPerson)}
+        >
+          Düzenle
+        </button>
+
+        <button
+          className="dangerButton"
+          onClick={() => deletePersonnel(selectedPerson.id)}
+        >
+          Sil
+        </button>
+      </div>
+    </div>
+  </section>
+)}
 
       {modalOpen && (
         <div className="modalBackdrop">
