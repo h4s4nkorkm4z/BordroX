@@ -3,7 +3,6 @@ import "./App.css";
 import Sidebar from "./components/layout/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import PersonnelPage from "./pages/Personnel";
-import PayrollPage from "./pages/Payroll";
 import ReportsPage from "./pages/Reports";
 import type { Page, Personnel } from "./types/personnel";
 
@@ -26,6 +25,7 @@ function App() {
 
       <main className="content">
         {page === "dashboard" && <Dashboard personnel={personnel} />}
+
         {page === "personnel" && (
           <PersonnelPage
             personnel={personnel}
@@ -33,8 +33,8 @@ function App() {
             reloadPersonnel={loadPersonnel}
           />
         )}
-        {page === "payroll" && <PayrollPage />}
-        {page === "reports" && <ReportsPage />}
+
+        {page === "reports" && <ReportsPage personnel={personnel} />}
       </main>
     </div>
   );
