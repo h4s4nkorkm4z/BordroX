@@ -29,17 +29,34 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
     event.preventDefault();
 
     const form = new FormData(event.currentTarget);
+const nationalId = String(form.get("nationalId"));
+const email = String(form.get("email"));
+const iban = String(form.get("iban"));
 
+if (nationalId && !/^\d{11}$/.test(nationalId)) {
+  alert("T.C. Kimlik No 11 haneli olmalıdır.");
+  return;
+}
+
+if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  alert("Geçerli bir e-posta adresi girin.");
+  return;
+}
+
+if (iban && iban.length > 0 && iban.replace(/\s/g, "").length < 15) {
+  alert("IBAN çok kısa görünüyor.");
+  return;
+}
     const data = {
       name: String(form.get("name")),
       position: String(form.get("position")),
       department: String(form.get("department")),
       phone: String(form.get("phone")),
-      email: String(form.get("email")),
-      nationalId: String(form.get("nationalId")),
+      email,
+      nationalId,
       birthDate: String(form.get("birthDate")),
       hireDate: String(form.get("hireDate")),
-      iban: String(form.get("iban")),
+      iban,
       address: String(form.get("address")),
       emergencyName: String(form.get("emergencyName")),
       emergencyPhone: String(form.get("emergencyPhone")),
