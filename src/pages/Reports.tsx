@@ -1,3 +1,4 @@
+import * as XLSX from "xlsx";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import type { Personnel } from "../types/personnel";
@@ -32,6 +33,25 @@ export default function ReportsPage({ personnel }: Props) {
     doc.save("bordrox-personel-listesi.pdf");
   }
 
+  function exportPersonnelExcel() {
+    const data = personnel.map((p) => ({
+      "Ad Soyad": p.name,
+      Pozisyon: p.position,
+      Departman: p.department || "",
+      Telefon: p.phone || "",
+      "E-posta": p.email || "",
+      "T.C. Kimlik No": p.nationalId || "",
+      IBAN: p.iban || "",
+      Maaş: p.salary,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Personeller");
+    XLSX.writeFile(workbook, "bordrox-personeller.xlsx");
+  }
+
   function printPage() {
     window.print();
   }
@@ -49,11 +69,15 @@ export default function ReportsPage({ personnel }: Props) {
       <section className="cards">
         <div className="card">
           <h3>Personel Listesi</h3>
-          <p>Tüm personelleri PDF olarak dışa aktarın.</p>
+          <p>Tüm personelleri PDF veya Excel olarak dışa aktarın.</p>
 
           <div className="rowActions">
             <button className="newButton" onClick={createPersonnelPdf}>
               PDF Oluştur
+            </button>
+
+            <button className="editButton" onClick={exportPersonnelExcel}>
+              Excel Oluştur
             </button>
 
             <button className="editButton" onClick={printPage}>
@@ -65,7 +89,6 @@ export default function ReportsPage({ personnel }: Props) {
         <div className="card">
           <h3>Özet</h3>
           <p>Toplam personel sayısı ve kayıt durumu.</p>
-
           <strong>{personnel.length} Personel</strong>
         </div>
       </section>
@@ -74,7 +97,7 @@ export default function ReportsPage({ personnel }: Props) {
         <div className="panelTitle">
           <div>
             <h3>Personel Rapor Önizleme</h3>
-            <p>PDF çıktısında yer alacak liste.</p>
+            <p>PDF ve Excel çıktısında yer alacak liste.</p>
           </div>
         </div>
 
