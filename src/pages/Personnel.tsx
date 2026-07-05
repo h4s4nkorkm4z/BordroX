@@ -11,6 +11,9 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingPerson, setEditingPerson] = useState<Personnel | null>(null);
   const [selectedPerson, setSelectedPerson] = useState<Personnel | null>(null);
+  const [search, setSearch] = useState("");
+  const [departmentFilter, setDepartmentFilter] = useState("Tümü");
+
 
   function openCreateModal() {
     setEditingPerson(null);
@@ -72,7 +75,19 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
 
     await reloadPersonnel();
   }
+   const filteredPersonnel = personnel.filter((p) => {
+   const text =
+    `${p.name} ${p.position} ${p.department ?? ""} ${p.phone ?? ""}`
+      .toLowerCase();
 
+  const searchMatch = text.includes(search.toLowerCase());
+
+  const departmentMatch =
+    departmentFilter === "Tümü" ||
+    p.department === departmentFilter;
+
+  return searchMatch && departmentMatch;
+});
   return (
     <>
       <header>
@@ -86,9 +101,38 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
           + Yeni Personel
         </button>
       </header>
-
+       
       <section className="panel">
-        {personnel.length === 0 ? (
+        <div className="personnelToolbar">
+
+  <input
+    type="text"
+    placeholder="🔍 Personel ara..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
+
+  <select
+    value={departmentFilter}
+    onChange={(e) => setDepartmentFilter(e.target.value)}
+  >
+    <option>Tümü</option>
+
+    {[
+  ...new Set(
+    personnel
+      .map((p) => p.department)
+      .filter((department): department is string => Boolean(department))
+  ),
+].map((department) => (
+  <option key={department} value={department}>
+    {department}
+  </option>
+))}
+  </select>
+</div>
+
+        {filteredPersonnel.length === 0 ? (
           <div
             style={{
               textAlign: "center",
@@ -117,7 +161,7 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
             </thead>
 
             <tbody>
-              {personnel.map((p) => (
+              {filteredPersonnel.map((p) => (
                 <tr key={p.id}>
                   <td>
                     <div className="personNameCell">
