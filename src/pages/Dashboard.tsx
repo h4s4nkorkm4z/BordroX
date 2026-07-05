@@ -1,4 +1,9 @@
-import { TrendingUp, Users, Wallet, BadgeDollarSign } from "lucide-react";
+import {
+  BadgeDollarSign,
+  Building2,
+  Users,
+  Wallet,
+} from "lucide-react";
 import type { Personnel } from "../types/personnel";
 
 type Props = {
@@ -11,26 +16,32 @@ export default function Dashboard({ personnel }: Props) {
   const averageSalary =
     personnel.length > 0 ? Math.round(totalSalary / personnel.length) : 0;
 
-  const highestSalary =
-    personnel.length > 0 ? Math.max(...personnel.map((p) => p.salary)) : 0;
+  const departmentCount = new Set(
+    personnel.map((p) => p.department).filter(Boolean)
+  ).size;
 
   const latestPersonnel = personnel.slice(0, 5);
 
+  const departmentStats = [...new Set(
+    personnel
+      .map((p) => p.department)
+      .filter((department): department is string => Boolean(department))
+  )].map((department) => ({
+    department,
+    count: personnel.filter((p) => p.department === department).length,
+  }));
+
   const cards = [
+    { title: "Toplam Personel", value: personnel.length, icon: Users },
     {
-      title: "Toplam Personel",
-      value: personnel.length,
-      icon: Users,
+      title: "Departman Sayısı",
+      value: departmentCount,
+      icon: Building2,
     },
     {
       title: "Ortalama Maaş",
       value: `₺${averageSalary.toLocaleString("tr-TR")}`,
       icon: Wallet,
-    },
-    {
-      title: "En Yüksek Maaş",
-      value: `₺${highestSalary.toLocaleString("tr-TR")}`,
-      icon: TrendingUp,
     },
     {
       title: "Toplam Maaş",
@@ -84,6 +95,7 @@ export default function Dashboard({ personnel }: Props) {
               <tr>
                 <th>Ad Soyad</th>
                 <th>Pozisyon</th>
+                <th>Departman</th>
                 <th>Telefon</th>
                 <th>Maaş</th>
               </tr>
@@ -94,8 +106,40 @@ export default function Dashboard({ personnel }: Props) {
                 <tr key={person.id}>
                   <td>{person.name}</td>
                   <td>{person.position}</td>
+                  <td>{person.department || "-"}</td>
                   <td>{person.phone || "-"}</td>
                   <td>₺{person.salary.toLocaleString("tr-TR")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </section>
+
+      <section className="panel">
+        <div className="panelTitle">
+          <div>
+            <h3>Departman Dağılımı</h3>
+            <p>Departmanlara göre personel sayısı</p>
+          </div>
+        </div>
+
+        {departmentStats.length === 0 ? (
+          <p>Henüz departman bilgisi bulunmuyor.</p>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Departman</th>
+                <th>Personel Sayısı</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {departmentStats.map((item) => (
+                <tr key={item.department}>
+                  <td>{item.department}</td>
+                  <td>{item.count}</td>
                 </tr>
               ))}
             </tbody>
