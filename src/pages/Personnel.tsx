@@ -10,6 +10,7 @@ type Props = {
 export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingPerson, setEditingPerson] = useState<Personnel | null>(null);
+  const [selectedPerson, setSelectedPerson] = useState<Personnel | null>(null);
 
   function openCreateModal() {
     setEditingPerson(null);
@@ -29,7 +30,17 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
     const data = {
       name: String(form.get("name")),
       position: String(form.get("position")),
+      department: String(form.get("department")),
       phone: String(form.get("phone")),
+      email: String(form.get("email")),
+      nationalId: String(form.get("nationalId")),
+      birthDate: String(form.get("birthDate")),
+      hireDate: String(form.get("hireDate")),
+      iban: String(form.get("iban")),
+      address: String(form.get("address")),
+      emergencyName: String(form.get("emergencyName")),
+      emergencyPhone: String(form.get("emergencyPhone")),
+      notes: String(form.get("notes")),
       salary: Number(form.get("salary")),
     };
 
@@ -54,6 +65,11 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
     if (!confirmDelete) return;
 
     await window.bordroxAPI.personnel.delete(id);
+
+    if (selectedPerson?.id === id) {
+      setSelectedPerson(null);
+    }
+
     await reloadPersonnel();
   }
 
@@ -93,6 +109,7 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
               <tr>
                 <th>Ad Soyad</th>
                 <th>Pozisyon</th>
+                <th>Departman</th>
                 <th>Telefon</th>
                 <th>Maaş</th>
                 <th>İşlem</th>
@@ -121,11 +138,19 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
                   </td>
 
                   <td>{p.position}</td>
+                  <td>{p.department || "-"}</td>
                   <td>{p.phone || "-"}</td>
                   <td>₺{p.salary.toLocaleString("tr-TR")}</td>
 
                   <td>
                     <div className="rowActions">
+                      <button
+                        className="editButton"
+                        onClick={() => setSelectedPerson(p)}
+                      >
+                        Görüntüle
+                      </button>
+
                       <button
                         className="editButton"
                         onClick={() => openEditModal(p)}
@@ -148,37 +173,186 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
         )}
       </section>
 
+      {selectedPerson && (
+        <section className="detailPanel">
+          <div className="detailHeader">
+            <div>
+              <h3>{selectedPerson.name}</h3>
+              <p>{selectedPerson.position}</p>
+            </div>
+
+            <button onClick={() => setSelectedPerson(null)}>Kapat</button>
+          </div>
+
+          <div className="detailGrid">
+            <div>
+              <span>Ad Soyad</span>
+              <strong>{selectedPerson.name}</strong>
+            </div>
+
+            <div>
+              <span>Pozisyon</span>
+              <strong>{selectedPerson.position}</strong>
+            </div>
+
+            <div>
+              <span>Departman</span>
+              <strong>{selectedPerson.department || "-"}</strong>
+            </div>
+
+            <div>
+              <span>Telefon</span>
+              <strong>{selectedPerson.phone || "-"}</strong>
+            </div>
+
+            <div>
+              <span>E-posta</span>
+              <strong>{selectedPerson.email || "-"}</strong>
+            </div>
+
+            <div>
+              <span>T.C. Kimlik No</span>
+              <strong>{selectedPerson.nationalId || "-"}</strong>
+            </div>
+
+            <div>
+              <span>Doğum Tarihi</span>
+              <strong>{selectedPerson.birthDate || "-"}</strong>
+            </div>
+
+            <div>
+              <span>İşe Giriş Tarihi</span>
+              <strong>{selectedPerson.hireDate || "-"}</strong>
+            </div>
+
+            <div>
+              <span>Maaş</span>
+              <strong>₺{selectedPerson.salary.toLocaleString("tr-TR")}</strong>
+            </div>
+
+            <div>
+              <span>IBAN</span>
+              <strong>{selectedPerson.iban || "-"}</strong>
+            </div>
+
+            <div>
+              <span>Acil Durum Kişisi</span>
+              <strong>{selectedPerson.emergencyName || "-"}</strong>
+            </div>
+
+            <div>
+              <span>Acil Durum Telefonu</span>
+              <strong>{selectedPerson.emergencyPhone || "-"}</strong>
+            </div>
+          </div>
+
+          <div className="detailNotes">
+            <span>Adres</span>
+            <p>{selectedPerson.address || "Adres bulunmuyor."}</p>
+          </div>
+
+          <div className="detailNotes">
+            <span>Notlar</span>
+            <p>{selectedPerson.notes || "Not bulunmuyor."}</p>
+          </div>
+        </section>
+      )}
+
       {modalOpen && (
         <div className="modalBackdrop">
-          <form className="modal" onSubmit={savePersonnel}>
+          <form className="modal personnelModal" onSubmit={savePersonnel}>
             <h3>{editingPerson ? "Personel Düzenle" : "Yeni Personel"}</h3>
 
-            <input
-              name="name"
-              placeholder="Ad Soyad"
-              defaultValue={editingPerson?.name ?? ""}
-              required
+            <div className="formGrid">
+              <input
+                name="name"
+                placeholder="Ad Soyad *"
+                defaultValue={editingPerson?.name ?? ""}
+                required
+              />
+
+              <input
+                name="position"
+                placeholder="Pozisyon *"
+                defaultValue={editingPerson?.position ?? ""}
+                required
+              />
+
+              <input
+                name="department"
+                placeholder="Departman"
+                defaultValue={editingPerson?.department ?? ""}
+              />
+
+              <input
+                name="phone"
+                placeholder="Telefon"
+                defaultValue={editingPerson?.phone ?? ""}
+              />
+
+              <input
+                name="email"
+                placeholder="E-posta"
+                defaultValue={editingPerson?.email ?? ""}
+              />
+
+              <input
+                name="nationalId"
+                placeholder="T.C. Kimlik No"
+                defaultValue={editingPerson?.nationalId ?? ""}
+              />
+
+              <input
+                name="birthDate"
+                type="date"
+                placeholder="Doğum Tarihi"
+                defaultValue={editingPerson?.birthDate ?? ""}
+              />
+
+              <input
+                name="hireDate"
+                type="date"
+                placeholder="İşe Giriş Tarihi"
+                defaultValue={editingPerson?.hireDate ?? ""}
+              />
+
+              <input
+                name="iban"
+                placeholder="IBAN"
+                defaultValue={editingPerson?.iban ?? ""}
+              />
+
+              <input
+                name="salary"
+                type="number"
+                placeholder="Aylık Maaş *"
+                defaultValue={editingPerson?.salary ?? ""}
+                required
+              />
+
+              <input
+                name="emergencyName"
+                placeholder="Acil Durum Kişisi"
+                defaultValue={editingPerson?.emergencyName ?? ""}
+              />
+
+              <input
+                name="emergencyPhone"
+                placeholder="Acil Durum Telefonu"
+                defaultValue={editingPerson?.emergencyPhone ?? ""}
+              />
+            </div>
+
+            <textarea
+              name="address"
+              placeholder="Adres"
+              defaultValue={editingPerson?.address ?? ""}
             />
 
-            <input
-              name="position"
-              placeholder="Pozisyon"
-              defaultValue={editingPerson?.position ?? ""}
-              required
-            />
-
-            <input
-              name="phone"
-              placeholder="Telefon"
-              defaultValue={editingPerson?.phone ?? ""}
-            />
-
-            <input
-              name="salary"
-              type="number"
-              placeholder="Aylık Maaş"
-              defaultValue={editingPerson?.salary ?? ""}
-              required
+            <textarea
+              name="notes"
+              placeholder="Notlar"
+              defaultValue={editingPerson?.notes ?? ""}
             />
 
             <div className="modalActions">

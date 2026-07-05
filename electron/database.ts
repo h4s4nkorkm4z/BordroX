@@ -8,7 +8,18 @@ const prisma = new PrismaClient();
 type PersonnelData = {
   name: string;
   position: string;
+  department?: string;
   phone?: string;
+  email?: string;
+  nationalId?: string;
+  birthDate?: string;
+  hireDate?: string;
+  iban?: string;
+  address?: string;
+  emergencyName?: string;
+  emergencyPhone?: string;
+  notes?: string;
+  photo?: string;
   salary: number;
 };
 

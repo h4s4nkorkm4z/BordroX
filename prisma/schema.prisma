@@ -8,16 +8,22 @@ datasource db {
 }
 
 model Personnel {
-  id         Int      @id @default(autoincrement())
-  name       String
-  position   String
-  phone      String?
-  email      String?
-  nationalId String?
-  iban       String?
-  hireDate   String?
-  notes      String?
-  salary     Float
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  name           String
+  position       String
+  department     String?
+  phone          String?
+  email          String?
+  nationalId     String?
+  birthDate      String?
+  hireDate       String?
+  iban           String?
+  address        String?
+  emergencyName  String?
+  emergencyPhone String?
+  notes          String?
+  photo          String?
+  salary         Float
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

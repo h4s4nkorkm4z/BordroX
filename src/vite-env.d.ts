@@ -5,7 +5,18 @@ import type { Personnel } from "./types/personnel";
 type PersonnelFormData = {
   name: string;
   position: string;
+  department?: string;
   phone?: string;
+  email?: string;
+  nationalId?: string;
+  birthDate?: string;
+  hireDate?: string;
+  iban?: string;
+  address?: string;
+  emergencyName?: string;
+  emergencyPhone?: string;
+  notes?: string;
+  photo?: string;
   salary: number;
 };
 
