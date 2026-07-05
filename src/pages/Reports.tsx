@@ -53,8 +53,67 @@ export default function ReportsPage({ personnel }: Props) {
   }
 
   function printPage() {
+  const printContent = document.getElementById("report-print-area");
+
+  if (!printContent) {
     window.print();
+    return;
   }
+
+  const printWindow = window.open("", "_blank", "width=900,height=700");
+
+  if (!printWindow) return;
+
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>BordroX Personel Raporu</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 24px;
+            color: #111827;
+          }
+
+          h1 {
+            margin-bottom: 4px;
+          }
+
+          p {
+            color: #4b5563;
+          }
+
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+          }
+
+          th, td {
+            border: 1px solid #d1d5db;
+            padding: 10px;
+            text-align: left;
+            font-size: 13px;
+          }
+
+          th {
+            background: #f3f4f6;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>BordroX</h1>
+        <p>Personel Listesi</p>
+        ${printContent.innerHTML}
+      </body>
+    </html>
+  `);
+
+  printWindow.document.close();
+  printWindow.focus();
+  printWindow.print();
+  printWindow.close();
+}
 
   return (
     <>
@@ -93,7 +152,7 @@ export default function ReportsPage({ personnel }: Props) {
         </div>
       </section>
 
-      <section className="panel">
+      <section className="panel" id="report-print-area">
         <div className="panelTitle">
           <div>
             <h3>Personel Rapor Önizleme</h3>
