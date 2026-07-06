@@ -1,4 +1,4 @@
-export type Page = "dashboard" | "personnel" | "reports";
+export type Page = "dashboard" | "personnel" | "payroll" | "reports";
 
 export type Personnel = {
   id: number;

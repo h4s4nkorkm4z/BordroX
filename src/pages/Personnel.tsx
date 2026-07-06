@@ -12,18 +12,38 @@ export default function PersonnelPage({ personnel, reloadPersonnel }: Props) {
   const [editingPerson, setEditingPerson] = useState<Personnel | null>(null);
   const [selectedPerson, setSelectedPerson] = useState<Personnel | null>(null);
   const [search, setSearch] = useState("");
-  const [departmentFilter, setDepartmentFilter] = useState("Tümü");
+  const [departmentFilter, setDepartmentFilter] = useState("");
+  const [positionFilter, setPositionFilter] = useState("");
+  const [salarySort, setSalarySort] = useState("");
+  const [formError, setFormError] = useState("");
+  const departments = Array.from(
+  new Set(
+    personnel
+      .map((p) => p.department)
+      .filter((department): department is string => Boolean(department))
+  )
+);
+
+const positions = Array.from(
+  new Set(
+    personnel
+      .map((p) => p.position)
+      .filter((position): position is string => Boolean(position))
+  )
+);
 
 
   function openCreateModal() {
-    setEditingPerson(null);
-    setModalOpen(true);
-  }
+  setFormError("");
+  setEditingPerson(null);
+  setModalOpen(true);
+}
 
   function openEditModal(person: Personnel) {
-    setEditingPerson(person);
-    setModalOpen(true);
-  }
+  setFormError("");
+  setEditingPerson(person);
+  setModalOpen(true);
+}
 
   async function savePersonnel(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -34,17 +54,17 @@ const email = String(form.get("email"));
 const iban = String(form.get("iban"));
 
 if (nationalId && !/^\d{11}$/.test(nationalId)) {
-  alert("T.C. Kimlik No 11 haneli olmalıdır.");
+  setFormError("T.C. Kimlik No 11 haneli olmalıdır.");
   return;
 }
 
 if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-  alert("Geçerli bir e-posta adresi girin.");
+  setFormError("Geçerli bir e-posta adresi girin.");
   return;
 }
 
 if (iban && iban.length > 0 && iban.replace(/\s/g, "").length < 15) {
-  alert("IBAN çok kısa görünüyor.");
+  setFormError("IBAN çok kısa görünüyor.");
   return;
 }
     const data = {
@@ -69,7 +89,7 @@ if (iban && iban.length > 0 && iban.replace(/\s/g, "").length < 15) {
     } else {
       await window.bordroxAPI.personnel.create(data);
     }
-
+    setFormError("");
     setModalOpen(false);
     setEditingPerson(null);
     await reloadPersonnel();
@@ -92,77 +112,184 @@ if (iban && iban.length > 0 && iban.replace(/\s/g, "").length < 15) {
 
     await reloadPersonnel();
   }
-   const filteredPersonnel = personnel.filter((p) => {
-   const text =
-    `${p.name} ${p.position} ${p.department ?? ""} ${p.phone ?? ""}`
-      .toLowerCase();
+  const totalPersonnel = personnel.length;
 
-  const searchMatch = text.includes(search.toLowerCase());
+const averageSalary =
+  personnel.length > 0
+    ? personnel.reduce((sum, p) => sum + p.salary, 0) / personnel.length
+    : 0;
 
-  const departmentMatch =
-    departmentFilter === "Tümü" ||
-    p.department === departmentFilter;
+const totalDepartments = departments.length;
 
-  return searchMatch && departmentMatch;
-});
-  return (
-    <>
+const totalPositions = positions.length;
+  const filteredPersonnel = personnel
+  
+  .filter((p) => {
+    const text =
+      `${p.name} ${p.position} ${p.department ?? ""} ${p.phone ?? ""}`
+        .toLowerCase();
+
+    const searchMatch = text.includes(search.toLowerCase());
+
+    const departmentMatch =
+      !departmentFilter ||
+      p.department === departmentFilter;
+
+    const positionMatch =
+      !positionFilter ||
+      p.position === positionFilter;
+      
+
+    return (
+      searchMatch &&
+      departmentMatch &&
+      positionMatch
+    );
+  })
+  .sort((a, b) => {
+    if (salarySort === "asc") {
+      return a.salary - b.salary;
+    }
+
+    if (salarySort === "desc") {
+      return b.salary - a.salary;
+    }
+
+    return 0;
+  });
+
+return (
+  <>
+  {formError && (
+  <div className="formToast">
+    <div className="formToastIcon">⚠</div>
+
+    <div className="formToastContent">
+      <strong>Doğrulama Hatası</strong>
+      <span>{formError}</span>
+    </div>
+
+    <button
+      type="button"
+      className="formToastClose"
+      onClick={() => setFormError("")}
+    >
+      ✕
+    </button>
+  </div>
+)}
       <header>
-        <div>
-          <span>02 — Personeller</span>
-          <h2>Personel</h2>
-          <p>Tüm çalışanları buradan yönetin.</p>
-        </div>
-
-        <button className="newButton" onClick={openCreateModal}>
-          + Yeni Personel
-        </button>
-      </header>
-       
-      <section className="panel">
-       <div className="personnelToolbar modernToolbar">
-  <div className="searchBox">
-    <span>🔍</span>
-
-    <input
-      type="text"
-      placeholder="Personel ara..."
-      value={search}
-      onChange={(e) => setSearch(e.target.value)}
-    />
-
-    {search && (
-      <button type="button" onClick={() => setSearch("")}>
-        ×
-      </button>
-    )}
+  <div>
+    <span>02 — Personeller</span>
+    <h2>Personel</h2>
+    <p>Tüm çalışanları buradan yönetin.</p>
   </div>
 
-  <div className="filterBox">
-    <span>☷</span>
+  <button className="newButton" onClick={openCreateModal}>
+    + Yeni Personel
+  </button>
+</header>
 
-    <select
-      value={departmentFilter}
-      onChange={(e) => setDepartmentFilter(e.target.value)}
-    >
-      <option>Tümü</option>
+<section className="panel">
+  <div className="personnelToolbar modernToolbar">
+    <div className="searchBox">
+      <span>🔍</span>
 
-      {[
-        ...new Set(
-          personnel
-            .map((p) => p.department)
-            .filter((department): department is string => Boolean(department))
-        ),
-      ].map((department) => (
-        <option key={department} value={department}>
-          {department}
-        </option>
-      ))}
-    </select>
+      <input
+        type="text"
+        placeholder="Personel ara..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      {search && (
+        <button type="button" onClick={() => setSearch("")}>
+          ×
+        </button>
+      )}
+    </div>
+
+    <div className="filterToolbar">
+      <select
+        value={departmentFilter}
+        onChange={(e) => setDepartmentFilter(e.target.value)}
+      >
+        <option value="">Tüm Departmanlar</option>
+        {departments.map((department) => (
+          <option key={department} value={department}>
+            {department}
+          </option>
+        ))}
+      </select>
+
+      <select
+        value={positionFilter}
+        onChange={(e) => setPositionFilter(e.target.value)}
+      >
+        <option value="">Tüm Pozisyonlar</option>
+        {positions.map((position) => (
+          <option key={position} value={position}>
+            {position}
+          </option>
+        ))}
+      </select>
+
+      <select
+        value={salarySort}
+        onChange={(e) => setSalarySort(e.target.value)}
+      >
+        <option value="">Maaş Sıralama</option>
+        <option value="asc">Maaş Artan</option>
+        <option value="desc">Maaş Azalan</option>
+      </select>
+
+      <button
+        type="button"
+        onClick={() => {
+          setSearch("");
+          setDepartmentFilter("");
+          setPositionFilter("");
+          setSalarySort("");
+        }}
+      >
+        Temizle
+      </button>
+    </div>
+  </div>
+<div className="personnelStats">
+  <div className="statCard">
+    <span>👥</span>
+    <div>
+      <strong>{totalPersonnel}</strong>
+      <small>Toplam Personel</small>
+    </div>
+  </div>
+
+  <div className="statCard">
+    <span>💰</span>
+    <div>
+      <strong>₺{averageSalary.toLocaleString("tr-TR")}</strong>
+      <small>Ortalama Maaş</small>
+    </div>
+  </div>
+
+  <div className="statCard">
+    <span>🏢</span>
+    <div>
+      <strong>{totalDepartments}</strong>
+      <small>Departman</small>
+    </div>
+  </div>
+
+  <div className="statCard">
+    <span>📋</span>
+    <div>
+      <strong>{totalPositions}</strong>
+      <small>Pozisyon</small>
+    </div>
   </div>
 </div>
-
-        {filteredPersonnel.length === 0 ? (
+  {filteredPersonnel.length === 0 ? (
           <div
             style={{
               textAlign: "center",
@@ -191,6 +318,7 @@ if (iban && iban.length > 0 && iban.replace(/\s/g, "").length < 15) {
             </thead>
 
             <tbody>
+              
               {filteredPersonnel.map((p) => (
                 <tr key={p.id}>
                   <td>
@@ -402,7 +530,6 @@ if (iban && iban.length > 0 && iban.replace(/\s/g, "").length < 15) {
         <div className="modalBackdrop">
           <form className="modal personnelModal" onSubmit={savePersonnel}>
             <h3>{editingPerson ? "Personel Düzenle" : "Yeni Personel"}</h3>
-
             <div className="formGrid">
               <input
                 name="name"
@@ -410,7 +537,6 @@ if (iban && iban.length > 0 && iban.replace(/\s/g, "").length < 15) {
                 defaultValue={editingPerson?.name ?? ""}
                 required
               />
-
               <input
                 name="position"
                 placeholder="Pozisyon *"
@@ -499,9 +625,10 @@ if (iban && iban.length > 0 && iban.replace(/\s/g, "").length < 15) {
               <button
                 type="button"
                 onClick={() => {
-                  setModalOpen(false);
-                  setEditingPerson(null);
-                }}
+                setFormError("");
+                setModalOpen(false);
+                setEditingPerson(null);
+               }}
               >
                 İptal
               </button>

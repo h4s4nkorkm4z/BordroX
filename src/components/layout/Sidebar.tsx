@@ -1,4 +1,5 @@
 import {
+  CreditCard,
   FileText,
   Home,
   Settings,
@@ -15,6 +16,7 @@ type Props = {
 const menu = [
   { key: "dashboard", label: "Dashboard", icon: Home },
   { key: "personnel", label: "Personeller", icon: Users },
+  { key: "payroll", label: "Bordro", icon: CreditCard },
   { key: "reports", label: "Raporlar", icon: FileText },
 ] as const;
 

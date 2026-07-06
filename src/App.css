@@ -299,69 +299,14 @@ tbody td:last-child {
   border-right: 1px solid rgba(28, 43, 66, 0.8);
 }
 
-.rowActions {
-  display: flex;
-  gap: 8px;
-}
-
-.editButton,
-.dangerButton {
-  color: white;
-  border: 0;
-  border-radius: 11px;
-  padding: 9px 13px;
-  cursor: pointer;
-  font-weight: 800;
-}
-
-.editButton {
-  background: #2563eb;
-}
-
-.editButton:hover {
-  background: #1d4ed8;
-}
-
-.dangerButton {
-  background: #dc2626;
-}
-
-.dangerButton:hover {
-  background: #b91c1c;
-}
-
 .personNameCell {
   display: flex;
   align-items: center;
 }
 
-.personAvatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 13px;
-  background: linear-gradient(135deg, #2563eb, #0f5bff);
-  color: white;
-  display: inline-grid;
-  place-items: center;
-  font-weight: 900;
-  margin-right: 12px;
-}
-
 .personInfo {
   display: flex;
   flex-direction: column;
-}
-
-.personInfo strong {
-  font-size: 14px;
-  font-weight: 700;
-  color: #f8fafc;
-}
-
-.personInfo small {
-  color: #9aa8bc;
-  font-size: 12px;
-  margin-top: 2px;
 }
 
 .modalBackdrop {
@@ -507,23 +452,6 @@ table {
 thead th,
 tbody td {
   white-space: nowrap;
-}
-
-.rowActions {
-  min-width: 260px;
-  flex-wrap: nowrap;
-}
-
-.editButton,
-.dangerButton {
-  white-space: nowrap;
-  min-width: 92px;
-}html,
-body {
-  width: 100%;
-  min-height: 100%;
-  overflow: auto;
-  background: #020617;
 }
 
 .app {
@@ -845,4 +773,525 @@ table {
 .detailFooter div {
   display: flex;
   gap: 12px;
+}.clearFilterButton {
+  height: 64px;
+  padding: 0 22px;
+  border: 1px solid #1c2b42;
+  border-radius: 18px;
+  background: #111a27;
+  color: #f8fafc;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* PDF / Excel / Yazdır butonları */
+.reportActions button,
+.exportActions button,
+.printActions button,
+.pdfButton,
+.excelButton,
+.printButton {
+  height: 42px !important;
+  padding: 0 16px !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+
+  border-radius: 11px !important;
+  border: 1px solid #315b9f !important;
+  background: #1f3b73 !important;
+  color: #dbeafe !important;
+
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+}
+
+.reportActions button:hover,
+.exportActions button:hover,
+.printActions button:hover,
+.pdfButton:hover,
+.excelButton:hover,
+.printButton:hover {
+  background: #28539b !important;
+  color: #ffffff !important;
+}
+/* ===== BordroX Toast Uyarı ===== */
+
+.formToast {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99999;
+
+  width: min(560px, calc(100vw - 40px));
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  padding: 16px 18px;
+  border-radius: 16px;
+
+  background: rgba(69, 18, 28, 0.96);
+  border: 1px solid rgba(248, 113, 113, 0.55);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
+
+  color: #fecaca;
+}
+
+.formToastIcon {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(248, 113, 113, 0.22);
+  color: #fecaca;
+
+  font-size: 26px;
+  line-height: 1;
+}
+
+.formToastContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.formToastContent strong {
+  color: #ffffff;
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.formToastContent span {
+  color: #fecaca;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.formToastClose {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: transparent;
+  color: #ffffff;
+
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.formToastClose:hover {
+  background: rgba(255, 255, 255, 0.1);
+}/* ===== Personel Sayfası Eksik Final Düzeltmeler ===== */
+
+.filterToolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filterToolbar select {
+  height: 54px;
+  min-width: 220px;
+  padding: 0 16px;
+  background: #0f172a;
+  color: #e5eefc;
+  border: 1px solid #2b4a78;
+  border-radius: 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filterToolbar select option {
+  background: #0f172a;
+  color: #e5eefc;
+}
+
+.filterToolbar button {
+  height: 54px;
+  padding: 0 20px;
+  border: 1px solid #2563eb;
+  border-radius: 12px;
+  background: #1e40af;
+  color: #dbeafe;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.filterToolbar button:hover {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.personnelStats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin: 24px 0;
+}
+
+.personnelStats .statCard {
+  background: #111827;
+  border: 1px solid #243554;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.personnelStats .statCard span {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: #1e2b44;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+}
+
+.personnelStats .statCard strong {
+  display: block;
+  font-size: 23px;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.personnelStats .statCard small {
+  color: #9fb2d0;
+  font-size: 13px;
+}
+
+.personAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #ffffff;
+  display: inline-grid;
+  place-items: center;
+  font-weight: 900;
+  margin-right: 12px;
+}
+
+.personInfo strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.personInfo small {
+  color: #8aa4cc;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.rowActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  min-width: 290px;
+}
+
+.rowActions button {
+  min-width: 92px;
+  height: 38px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.editButton {
+  background: #1f3b73 !important;
+  color: #dbeafe !important;
+  border: 1px solid #315b9f !important;
+}
+
+.editButton:hover {
+  background: #28539b !important;
+}
+
+.dangerButton {
+  background: #442020 !important;
+  color: #fecaca !important;
+  border: 1px solid #7f1d1d !important;
+}
+
+.dangerButton:hover {
+  background: #6b2424 !important;
+}/* ===== Personel Tablo Final Koyu Tema ===== */
+
+.panel table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.panel thead th {
+  color: #7f9bc8;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 14px 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.panel tbody tr {
+  background: transparent;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.panel tbody tr:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.panel tbody td {
+  background: #111827;
+  color: #e5eefc;
+  padding: 18px;
+  border-top: 1px solid #253856;
+  border-bottom: 1px solid #253856;
+}
+
+.panel tbody tr:hover td {
+  background: #172033;
+}
+
+.panel tbody td:first-child {
+  border-left: 1px solid #253856;
+  border-radius: 16px 0 0 16px;
+}
+
+.panel tbody td:last-child {
+  border-right: 1px solid #253856;
+  border-radius: 0 16px 16px 0;
+}/* ===== Bordro Sayfası ===== */
+
+.payrollPanel {
+  display: grid;
+  gap: 24px;
+}
+
+.payrollHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.payrollHeader h3 {
+  margin: 0;
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.payrollHeader p {
+  margin: 6px 0 0;
+  color: #9fb2d0;
+}
+
+.payrollGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.payrollCard {
+  background: #111827;
+  border: 1px solid #243554;
+  border-radius: 16px;
+  padding: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+.payrollCard label {
+  color: #9fb2d0;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.payrollCard input,
+.payrollCard select {
+  height: 48px;
+  background: #07101c;
+  color: #e5eefc;
+  border: 1px solid #2b4a78;
+  border-radius: 12px;
+  padding: 0 14px;
+  outline: none;
+}
+
+.payrollCard input:focus,
+.payrollCard select:focus {
+  border-color: #2563eb;
+}
+
+.payrollSummary {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+}
+
+.payrollSummary div {
+  background: #0f172a;
+  border: 1px solid #243554;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.payrollSummary span {
+  display: block;
+  color: #9fb2d0;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.payrollSummary strong {
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.payrollTotal {
+  background: linear-gradient(135deg, #1e40af, #2563eb) !important;
+  border-color: #3b82f6 !important;
+}
+
+.payrollActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.payrollActions button {
+  height: 46px;
+  padding: 0 22px;
+  border: 1px solid #2563eb;
+  border-radius: 12px;
+  background: #1e40af;
+  color: #dbeafe;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.payrollActions button:hover {
+  background: #2563eb;
+  color: #ffffff;
+}.payrollSummaryCard {
+  border-color: rgba(37, 99, 235, 0.55);
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.16), rgba(15, 23, 42, 0.96)),
+    #0f172a;
+}
+
+.payrollSummaryCard h4 {
+  color: #bfdbfe;
+}
+
+.netSalaryRow {
+  margin-top: 8px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(96, 165, 250, 0.35);
+}
+
+.netSalaryRow span {
+  color: #bfdbfe;
+  font-weight: 800;
+}
+
+.netSalaryRow strong {
+  color: #ffffff;
+  font-size: 20px;
+}.detailPanel.modernDetailPanel {
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 28px;
+  scroll-behavior: smooth;
+}
+
+/* Üst başlık sabit kalsın, içerik kaydırılsın */
+.modernDetailHeader {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(12px);
+  padding-top: 6px;
+}
+
+/* Scroll bar daha düzgün görünsün */
+.detailPanel.modernDetailPanel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.detailPanel.modernDetailPanel::-webkit-scrollbar-thumb {
+  background: rgba(96, 165, 250, 0.45);
+  border-radius: 999px;
+}
+
+.detailPanel.modernDetailPanel::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+}/* Personel detayı sayfa içinde kalsın, ekran aşağı kayabilsin */
+html,
+body,
+#root {
+  min-height: 100%;
+  height: auto !important;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+}
+
+.detailPanel.modernDetailPanel {
+  position: relative !important;
+  top: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  transform: none !important;
+
+  width: 100% !important;
+  max-height: none !important;
+  height: auto !important;
+
+  overflow: visible !important;
+  margin-top: 24px;
+  margin-bottom: 48px;
+}
+
+/* Detay başlığı sabit kalmasın */
+.detailPanel.modernDetailPanel .modernDetailHeader {
+  position: relative !important;
+  top: auto !important;
+}
+
+/* Alt butonlar da normal aksın */
+.detailPanel.modernDetailPanel .detailFooter {
+  position: relative !important;
+  bottom: auto !important;
 }
