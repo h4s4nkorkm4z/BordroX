@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-import type { Personnel } from "./types/personnel";
+import type { PayrollRecord, Personnel } from "./types/personnel";
 
 type PersonnelFormData = {
   name: string;
@@ -20,6 +20,19 @@ type PersonnelFormData = {
   salary: number;
 };
 
+type PayrollFormData = {
+  personnelId: number;
+  personnelName: string;
+  department?: string | null;
+  month: string;
+  year: string;
+  workedDays: string;
+  netSalary: number;
+  extraPayment: number;
+  advancePayment: number;
+  totalPayment: number;
+};
+
 declare global {
   interface Window {
     bordroxAPI: {
@@ -28,6 +41,12 @@ declare global {
         create: (data: PersonnelFormData) => Promise<Personnel>;
         update: (id: number, data: PersonnelFormData) => Promise<Personnel>;
         delete: (id: number) => Promise<Personnel>;
+      };
+
+      payroll: {
+        list: () => Promise<PayrollRecord[]>;
+        create: (data: PayrollFormData) => Promise<PayrollRecord>;
+        delete: (id: number) => Promise<PayrollRecord>;
       };
     };
   }

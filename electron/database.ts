@@ -23,6 +23,19 @@ type PersonnelData = {
   salary: number;
 };
 
+type PayrollData = {
+  personnelId: number;
+  personnelName: string;
+  department?: string | null;
+  month: string;
+  year: string;
+  workedDays: string;
+  netSalary: number;
+  extraPayment: number;
+  advancePayment: number;
+  totalPayment: number;
+};
+
 export const database = {
   personnel: {
     list() {
@@ -44,6 +57,37 @@ export const database = {
 
     delete(id: number) {
       return prisma.personnel.delete({
+        where: { id },
+      });
+    },
+  },
+
+  payroll: {
+    list() {
+      return prisma.payroll.findMany({
+        orderBy: { createdAt: "desc" },
+      });
+    },
+
+    create(data: PayrollData) {
+      return prisma.payroll.create({
+        data: {
+          personnelId: Number(data.personnelId),
+          personnelName: data.personnelName,
+          department: data.department || null,
+          month: data.month,
+          year: data.year,
+          workedDays: data.workedDays,
+          netSalary: Number(data.netSalary || 0),
+          extraPayment: Number(data.extraPayment || 0),
+          advancePayment: Number(data.advancePayment || 0),
+          totalPayment: Number(data.totalPayment || 0),
+        },
+      });
+    },
+
+    delete(id: number) {
+      return prisma.payroll.delete({
         where: { id },
       });
     },

@@ -32,7 +32,17 @@ ipcMain.handle("personnel:update", async (_event, id: number, data) => {
 ipcMain.handle("personnel:delete", async (_event, id: number) => {
   return database.personnel.delete(id);
 });
+ipcMain.handle("payroll:list", async () => {
+  return database.payroll.list();
+});
 
+ipcMain.handle("payroll:create", async (_event, data) => {
+  return database.payroll.create(data);
+});
+
+ipcMain.handle("payroll:delete", async (_event, id: number) => {
+  return database.payroll.delete(id);
+});
 function createWindow() {
   win = new BrowserWindow({
     width: 1200,
