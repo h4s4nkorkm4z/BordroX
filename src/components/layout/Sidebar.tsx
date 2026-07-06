@@ -42,6 +42,7 @@ export default function Sidebar({ page, setPage }: Props) {
 
           return (
             <button
+  
               key={item.key}
               className={page === item.key ? "active menuButton" : "menuButton"}
               onClick={() => setPage(item.key)}

@@ -1,5 +1,26 @@
 import { useState } from "react";
 import type { Personnel } from "../types/personnel";
+function formatCurrency(value: number) {
+  return value.toLocaleString("tr-TR", {
+    style: "currency",
+    currency: "TRY",
+    maximumFractionDigits: 2,
+  });
+}
+
+function calculateSimplePayroll(grossSalary: number) {
+  const gross = Number(grossSalary || 0);
+
+  const estimatedDeductionRate = 0.22;
+  const totalDeduction = gross * estimatedDeductionRate;
+  const netSalary = gross - totalDeduction;
+
+  return {
+    gross,
+    totalDeduction,
+    netSalary,
+  };
+}
 
 type Props = {
   personnel: Personnel[];
@@ -468,7 +489,30 @@ return (
           <span>Maaş</span>
           <strong>₺{selectedPerson.salary.toLocaleString("tr-TR")}</strong>
         </div>
+{(() => {
+  const payroll = calculateSimplePayroll(selectedPerson.salary);
 
+  return (
+    <div className="modernInfoCard payrollSummaryCard">
+      <h4>Bordro Özeti</h4>
+
+      <div className="infoRow">
+        <span>Brüt Maaş</span>
+        <strong>{formatCurrency(payroll.gross)}</strong>
+      </div>
+
+      <div className="infoRow">
+        <span>Tahmini Kesinti</span>
+        <strong>{formatCurrency(payroll.totalDeduction)}</strong>
+      </div>
+
+      <div className="infoRow netSalaryRow">
+        <span>Tahmini Net Ödeme</span>
+        <strong>{formatCurrency(payroll.netSalary)}</strong>
+      </div>
+    </div>
+  );
+})()}
         <div className="infoRow">
           <span>IBAN</span>
           <strong>{selectedPerson.iban || "-"}</strong>

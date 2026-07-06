@@ -1294,4 +1294,26 @@ body,
 .detailPanel.modernDetailPanel .detailFooter {
   position: relative !important;
   bottom: auto !important;
+}.savedPayrollPanel {
+  margin-top: 24px;
+}
+
+.payrollActions button {
+  min-height: 46px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.payrollActions button:hover {
+  filter: brightness(1.08);
+}
+
+.payrollTotal {
+  border-color: rgba(96, 165, 250, 0.45) !important;
+  background: rgba(37, 99, 235, 0.14);
 }
